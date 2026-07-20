@@ -1,0 +1,20 @@
+{
+  "name": "tiktok_game",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "readline": "^1.3.0",
+    "tiktok-live-connector": "^2.1.1-beta1",
+    "ws": "^8.21.0"
+  }
+}

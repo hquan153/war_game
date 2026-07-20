@@ -1,0 +1,16 @@
+server/node_modules/
+server/.env
+*.log
+
+war_game/Library/
+war_game/Temp/
+war_game/Obj/
+war_game/Logs/
+war_game/UserSettings/
+war_game/ProfilerCaptures/
+war_game/.vs/
+
+*.csproj
+*.sln
+*.slnx
+*.vsconfig
