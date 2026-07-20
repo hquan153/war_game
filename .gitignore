@@ -1,7 +1,9 @@
+# ===== SERVER =====
 server/node_modules/
 server/.env
 *.log
 
+# ===== UNITY =====
 war_game/Library/
 war_game/Temp/
 war_game/Obj/
