@@ -1,19 +1,19 @@
 const { TikTokLiveConnection } = require("tiktok-live-connector");
-const readline = require("readline");
+// const readline = require("readline");
 
 const constants = require("../untils/constants");
 
 const tiktokUsername = constants.tiktokUsername;
-const tiktokConnection = new TikTokLiveConnection(tiktokUsername);
+const tiktokConnection = new TikTokLiveConnection(tiktokUsername, {});
 
-tiktokConnection
+/* tiktokConnection
   .connect()
   .then((state) => {
     console.info(`Connected to roomId ${state.roomId}`);
   })
   .catch((err) => {
     console.error("Failed to connect", err);
-  });
+  }); */
 
 /* readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isRawMode) {

@@ -11,6 +11,7 @@ war_game/Logs/
 war_game/UserSettings/
 war_game/ProfilerCaptures/
 war_game/.vs/
+war_game/Packages/com.merry-yellow.code-assist
 
 *.csproj
 *.sln

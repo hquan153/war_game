@@ -1,4 +1,4 @@
-const { TikTokLiveConnection, WebcastEvent } = require("tiktok-live-connector");
+const { WebcastEvent } = require("tiktok-live-connector");
 
 const tiktokConnection = require("../connections/tiktok");
 
