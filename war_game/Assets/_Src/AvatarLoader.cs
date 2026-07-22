@@ -8,6 +8,7 @@ public class AvatarLoader : MonoBehaviour
     private Sprite CreateSpriteFromBase64(string avatarBase64)
     {
         if (string.IsNullOrEmpty(avatarBase64)) return null;
+        else Debug.LogError("avatarBase64 is null or empty");
 
         try
         {
