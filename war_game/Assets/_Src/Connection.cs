@@ -3,11 +3,40 @@ using UnityEngine;
 
 public class Connection : MonoBehaviour
 {
-    public WebSocket websocket;
+    private WebSocket websocket;
+
+    private GameManager gameManagerScript;
 
     private void Awake()
     {
         websocket = new WebSocket("ws://127.0.0.1:8080");
+
+        gameManagerScript = transform.GetComponent<GameManager>();
+    }
+
+    async private void Start()
+    {
+        websocket.OnOpen += () =>
+        {
+            Debug.Log("Connection open!");
+        };
+
+        websocket.OnError += (e) => Debug.Log("Error! " + e);
+
+        websocket.OnClose += (code) =>
+        {
+            Debug.Log("Connection closed!");
+        };
+
+        websocket.OnMessage += (bytes) =>
+        {
+            var interactionDataJSON = System.Text.Encoding.UTF8.GetString(bytes);
+            ViewerData interactionData = JsonUtility.FromJson<ViewerData>(interactionDataJSON);
+            //Debug.Log("Received: " + interactionData.avatarBase64);
+            gameManagerScript.ReceiverHandler(interactionData);
+        };
+
+        await websocket.Connect();
     }
 
     private void Update()

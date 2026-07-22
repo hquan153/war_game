@@ -1,10 +1,11 @@
 class Gift {
-  constructor(borderColor, health, damage, diamondCount, tier, avatarBase64) {
+  constructor(borderColor, tier, size, health, damage, diamondCount, avatarBase64) {
     this.borderColor = borderColor;
+    this.tier = tier;
+    this.size = size;
     this.health = health;
     this.damage = damage;
     this.diamondCount = diamondCount;
-    this.tier = tier;
     this.avatarBase64 = avatarBase64 || "";
   }
 }
@@ -20,11 +21,11 @@ class Gift {
 // border-color, health, damage, diamondCount, tier, avatarBase64
 
 const giftConfig = [
-  new Gift("white", 20, 0, 0, "base"),
-  new Gift("blue", 50, 2, 1, "rare"),
-  new Gift("violet", 100, 2, 5, "mythic"),
-  new Gift("yellow", 500, 15, 10, "legendary"),
-  new Gift("red", 10000, 50, 100, "god"),
+  new Gift("white", "base", 0.4, 20, 0, 0),
+  new Gift("blue", "rare", 1, 50, 2, 1),
+  new Gift("violet", "mythic", 2, 100, 2, 5),
+  new Gift("yellow", "legendary", 3.5, 500, 15, 10),
+  new Gift("red", "god", 6, 10000, 50, 100),
 ];
 
 module.exports = giftConfig;
