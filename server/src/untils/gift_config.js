@@ -17,7 +17,7 @@ class Gift {
  * 100 - god
  */
 
-// border-color, health, size, damage, diamondCount, tier, avatarBase64
+// border-color, health, damage, diamondCount, tier, avatarBase64
 
 const giftConfig = [
   new Gift("white", 20, 0, 0, "base"),

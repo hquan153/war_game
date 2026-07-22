@@ -2,7 +2,7 @@ const axios = require("axios");
 const sharp = require("sharp");
 
 const circleShape = Buffer.from(
-  '<svg width="72" height="72"><circle cx="36" cy="36" r="36" fill="rgb(255, 255, 255)"/></svg>',
+  '<svg width="72" height="72"><circle cx="36" cy="36" r="36" fill="rgba(255, 255, 255, 1)"/></svg>',
 );
 
 const fetchAvatarAsBase64 = async (avatarUrl) => {

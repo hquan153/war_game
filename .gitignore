@@ -5,6 +5,7 @@ server/.env
 
 # ===== UNITY =====
 war_game/Library/
+war_game/Assets/TextMesh Pro
 war_game/Temp/
 war_game/Obj/
 war_game/Logs/
