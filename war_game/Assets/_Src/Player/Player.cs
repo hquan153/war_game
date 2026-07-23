@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private SpriteRenderer avatarSpriteRenderer;
+    private int health;
+    private int damage;
 
     private void Awake()
     {
-        avatarSpriteRenderer = transform.Find("Avatar").GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -16,16 +16,39 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
-    public void RenderAvatar(Sprite avatarSprite)
+    private void Render(Sprite avatarSprite, PlayerData player)
     {
-        Debug.Log("avatarSprite:" + avatarSprite);
-        if (avatarSprite != null)
+        transform.localScale = new Vector3(player.size, player.size, player.size);
+
+        transform.Find("Avatar").GetComponent<SpriteRenderer>().sprite = avatarSprite;
+
+        if (ColorUtility.TryParseHtmlString(player.borderColor.ToLower(), out Color newBorderColor))
+            transform.Find("Border").GetComponent<SpriteRenderer>().color = newBorderColor;
+        else Debug.LogWarning("Invalid color string!");
+
+        if (player.tier != "base")
         {
-            Debug.Log("Rendered!");
-            avatarSpriteRenderer.sprite = avatarSprite;
+            if (ColorUtility.TryParseHtmlString(player.color.ToLower(), out Color newColor))
+                transform.Find("Saw Blade").GetComponent<SpriteRenderer>().color = newColor;
+            else Debug.LogWarning("Invalid color string!");
         }
+        else transform.Find("Saw Blade").GetComponent<SpriteRenderer>().enabled = false;
+
+        Debug.Log("Rendered!");
+    }
+
+    private void Assign(PlayerData player)
+    {
+        health = player.health;
+        damage = player.damage;
+    }
+
+    public void Create(PlayerData player, Sprite avatarSprite)
+    {
+        Render(avatarSprite, player);
+        Assign(player);
     }
 }

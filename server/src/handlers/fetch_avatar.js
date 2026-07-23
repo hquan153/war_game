@@ -5,7 +5,7 @@ const circleShape = Buffer.from(
   '<svg width="72" height="72"><circle cx="36" cy="36" r="36" fill="rgba(255, 255, 255, 1)"/></svg>',
 );
 
-const fetchAvatarAsBase64 = async (avatarUrl) => {
+const fetchAvatarAsBuffer = async (avatarUrl) => {
   try {
     const response = await axios.get(avatarUrl, { responseType: "arraybuffer" });
     const roundedPngBuffer = await sharp(response.data)
@@ -16,15 +16,14 @@ const fetchAvatarAsBase64 = async (avatarUrl) => {
           blend: "dest-in",
         },
       ])
-      // .toFormat("png")
       .png()
       .toBuffer();
 
     return roundedPngBuffer;
   } catch (error) {
-    console.error("Lỗi fetch/convert avatar:", error);
+    console.error("Error when fetch/convert avatar:", error);
     return null;
   }
 };
 
-module.exports = fetchAvatarAsBase64;
+module.exports = fetchAvatarAsBuffer;

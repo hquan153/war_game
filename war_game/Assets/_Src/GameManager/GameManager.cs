@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
     }
 
-    public void InteractionDataReceiverHandler(PlayerData interactionData)
+    public void PlayerDataReceiverHandler(PlayerData player)
     {
         if (players.Count == 0)
         {
@@ -34,10 +34,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        GameObject player = players.Dequeue();
-        player.SetActive(true);
+        GameObject playerGO = players.Dequeue();
+        playerGO.SetActive(true);
 
-        Sprite avatarSprite = avatarLoaderScript.CreateSpriteFromBase64(interactionData.avatarBase64);
-        player.GetComponent<Player>().RenderAvatar(avatarSprite);
+        Sprite avatarSprite = avatarLoaderScript.CreateSpriteFromBuffer(player.avatarBuffer);
+        playerGO.GetComponent<Player>().Create(player, avatarSprite);
     }
 }

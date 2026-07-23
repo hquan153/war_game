@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ea4a761bffdcc6e499a61a1536c5bf3f
+guid: 7c66d7cb12dfc154e86539f92f4b60f4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8822361400959293398
-    second: Raw Incisor_0
+      213: 4507162162781784842
+    second: Border_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1024
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Raw Incisor Old_0
+      name: Border_0
       rect:
         serializedVersion: 2
         x: 0
@@ -108,15 +108,15 @@ TextureImporter:
         width: 1024
         height: 1024
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6d7db4883f25f6a70800000000000000
-      internalID: 8822361400959293398
+      spriteID: a0b80b96b18ac8e30800000000000000
+      internalID: 4507162162781784842
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c0b25aaab42c3e240a63f02123f4f9ab
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Raw Incisor Old_0: 8822361400959293398
+      Border_0: 4507162162781784842
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

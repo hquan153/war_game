@@ -1,17 +1,16 @@
 const app = require("../index");
 
+const convertToBuffer = require("../untils/convert_to_buffer");
+
 let i = 0;
-const sendToUnity = async (interactionData) => {
-  // console.log(interactionData);
+const sendToUnity = (interactionData) => {
   const unityClient = app?.locals?.unityClient;
-
   if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
-  await unityClient.send(JSON.stringify({ ...interactionData }));
 
-  console.log(Buffer.isBuffer(interactionData.avatarBase64), interactionData.avatarBase64.length);
+  unityClient.send(convertToBuffer(interactionData), { binary: true });
+
+  console.log(`[Sent to Unity]: ${{ ...interactionData }}, ${i}, coin: ${interactionData.diamondCount}`);
   i++;
-
-  console.log(`[Sent to Unity]: ${{ ...interactionData }}`);
 };
 
 module.exports = sendToUnity;

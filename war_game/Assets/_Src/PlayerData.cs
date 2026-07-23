@@ -2,12 +2,13 @@
 public class PlayerData
 {
     public string color;
+    public string borderColor;
     public int health;
-    public int size;
+    public float size;
     public int damage;
     public int diamondCount;
     public string tier;
-    public byte[] avatarBase64;
+    public byte[] avatarBuffer;
 
     public bool isWelcome;
     public string message;

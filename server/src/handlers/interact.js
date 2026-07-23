@@ -2,54 +2,28 @@ const { WebcastEvent } = require("tiktok-live-connector");
 
 const tiktokConnection = require("../connections/tiktok");
 
-const fetchAvatarAsBase64 = require("./fetch_avatar");
+const fetchAvatarAsBuffer = require("./fetch_avatar");
 const sendToUnity = require("./send_to_unity");
 
 const constants = require("../untils/constants");
 const giftConfig = require("../untils/gift_config");
 // console.log(giftConfig);
 
-tiktokConnection.on(WebcastEvent.CHAT, async (viewerData) => {
-  /*  // console.log(viewerData);
-  console.log(
-    `${viewerData.giftDetails.giftName} x${viewerData.repeatCount}, ${viewerData.diamondCount} diamonds,${viewerData.test}`,
-  );
-
-  const giftInfo = giftConfig.find((gift) => gift.diamondCount === viewerData.diamondCount);
-  giftInfo.avatarBase64 = await fetchAvatarAsBase64(
-    viewerData.profilePictureUrl || viewerData.user.profilePicture.urls[0],
-  );
-
-  sendToUnity({ ...giftInfo, count: viewerData.test ? 1 : viewerData.repeatCount }); */
-
-  viewerData.diamondCount = 0;
-  interact(viewerData);
-});
-
-tiktokConnection.on(WebcastEvent.GIFT, async (viewerData) => {
-  /* // console.log(viewerData);
-  console.log(
-    `${viewerData.giftDetails.giftName} x${viewerData.repeatCount}, ${viewerData.diamondCount} diamonds,${viewerData.test}`,
-  );
-
-  const giftInfo = giftConfig.find((gift) => gift.diamondCount === viewerData.diamondCount);
-  giftInfo.avatarBase64 = await fetchAvatarAsBase64(
-    viewerData.profilePictureUrl || viewerData.user.profilePicture.urls[0],
-  );
-
-  sendToUnity({ ...giftInfo, count: viewerData.test ? 1 : viewerData.repeatCount }); */
-
-  interact(viewerData);
-});
+const borderColors = ["green", "pink", "red", "black", "yellow", "orange", "purple"];
 
 const interact = async (viewerData) => {
+  viewerData.diamondCount = viewerData.gift?.diamondCount || 0;
+  // console.log("coin: ", viewerData.diamondCount);
+
   const interactionData =
     giftConfig.find((gift) => gift.diamondCount === viewerData.diamondCount) || giftConfig[0];
-  interactionData.avatarBase64 = await fetchAvatarAsBase64(
-    viewerData.user.avatarThumb.urlList,
-    // viewerData.profilePictureUrl || viewerData.user.profilePicture.urls[0],
-  );
-  console.log(interactionData);
 
+  interactionData.avatarBuffer = await fetchAvatarAsBuffer(viewerData.user.avatarThumb.urlList);
+  interactionData.borderColor = borderColors[Math.floor(Math.random() * borderColors.length)];
+
+  // console.log("have an interaction!");
   sendToUnity({ ...interactionData });
 };
+
+tiktokConnection.on(WebcastEvent.CHAT, interact);
+tiktokConnection.on(WebcastEvent.GIFT, interact);
