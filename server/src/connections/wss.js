@@ -11,7 +11,7 @@ wss.on("connection", (ws) => {
   console.log(`[WS]: Unity connected via WebSocket.`);
   app.locals.unityClient = ws;
 
-  ws.send(JSON.stringify({ message: "Welcome to the WebSocket server!" }));
+  ws.send(JSON.stringify({ message: "Welcome to the WebSocket server!", isWelcome: true }));
 
   ws.on("close", () => {
     console.log(`[WS]: Unity disconnected from WebSocket.`);

@@ -49,7 +49,7 @@ const interact = async (viewerData) => {
     viewerData.user.avatarThumb.urlList,
     // viewerData.profilePictureUrl || viewerData.user.profilePicture.urls[0],
   );
-  console.log(interactionData.avatarBase64 === null);
+  console.log(interactionData);
 
   sendToUnity({ ...interactionData });
 };

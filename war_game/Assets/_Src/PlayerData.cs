@@ -1,11 +1,14 @@
 [System.Serializable]
-public class ViewerData
+public class PlayerData
 {
-    public string borderColor;
+    public string color;
     public int health;
     public int size;
     public int damage;
     public int diamondCount;
     public string tier;
-    public string avatarBase64;
+    public byte[] avatarBase64;
+
+    public bool isWelcome;
+    public string message;
 }

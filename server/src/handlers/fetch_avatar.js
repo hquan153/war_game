@@ -16,10 +16,11 @@ const fetchAvatarAsBase64 = async (avatarUrl) => {
           blend: "dest-in",
         },
       ])
-      .toFormat("png")
+      // .toFormat("png")
+      .png()
       .toBuffer();
 
-    return roundedPngBuffer.toString("base64");
+    return roundedPngBuffer;
   } catch (error) {
     console.error("Lỗi fetch/convert avatar:", error);
     return null;

@@ -1,12 +1,15 @@
 class Gift {
-  constructor(borderColor, tier, size, health, damage, diamondCount, avatarBase64) {
-    this.borderColor = borderColor;
+  constructor(color, tier, size, health, damage, diamondCount, avatarBase64) {
+    this.color = color;
     this.tier = tier;
     this.size = size;
     this.health = health;
     this.damage = damage;
     this.diamondCount = diamondCount;
     this.avatarBase64 = avatarBase64 || "";
+
+    this.isWelcome = false;
+    this.message = "";
   }
 }
 
@@ -33,7 +36,7 @@ module.exports = giftConfig;
 /* [
   {
     avatar: '',
-    borderColor: 'white',
+    color: 'white',
     health: 20,
     size: 1,
     damage: 0,
@@ -42,7 +45,7 @@ module.exports = giftConfig;
   },
   {
     avatar: '',
-    borderColor: 'blue',
+    color: 'blue',
     health: 50,
     size: 2,
     damage: 2,
@@ -51,7 +54,7 @@ module.exports = giftConfig;
   },
   {
     avatar: '',
-    borderColor: 'violet',
+    color: 'violet',
     health: 100,
     size: 5,
     damage: 2,
@@ -60,7 +63,7 @@ module.exports = giftConfig;
   },
   {
     avatar: '',
-    borderColor: 'yellow',
+    color: 'yellow',
     health: 500,
     size: 10,
     damage: 15,
@@ -69,7 +72,7 @@ module.exports = giftConfig;
   },
   {
     avatar: '',
-    borderColor: 'red',
+    color: 'red',
     health: 10000,
     size: 25,
     damage: 50,

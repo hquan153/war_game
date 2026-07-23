@@ -31,9 +31,11 @@ public class Connection : MonoBehaviour
         websocket.OnMessage += (bytes) =>
         {
             var interactionDataJSON = System.Text.Encoding.UTF8.GetString(bytes);
-            ViewerData interactionData = JsonUtility.FromJson<ViewerData>(interactionDataJSON);
-            //Debug.Log("Received: " + interactionData.avatarBase64);
-            gameManagerScript.ReceiverHandler(interactionData);
+            PlayerData interactionData = JsonUtility.FromJson<PlayerData>(interactionDataJSON);
+            Debug.Log("Received: " + interactionData.avatarBase64);
+
+            if (interactionData.isWelcome) Debug.Log(interactionData.message);
+            else gameManagerScript.InteractionDataReceiverHandler(interactionData);
         };
 
         await websocket.Connect();
