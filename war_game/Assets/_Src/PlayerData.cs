@@ -1,6 +1,7 @@
 [System.Serializable]
 public class PlayerData
 {
+    public string displayId;
     public string color;
     public string borderColor;
     public int health;

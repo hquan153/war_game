@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     private AvatarLoader avatarLoaderScript;
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
     }
 
-    public void PlayerDataReceiverHandler(PlayerData player)
+    public void PlayerCreateHandler(PlayerData player)
     {
         if (players.Count == 0)
         {
@@ -39,5 +39,13 @@ public class GameManager : MonoBehaviour
 
         Sprite avatarSprite = avatarLoaderScript.CreateSpriteFromBuffer(player.avatarBuffer);
         playerGO.GetComponent<Player>().Create(player, avatarSprite);
+    }
+
+    public void PlayerDeadHandler(GameObject playerGO)
+    {
+        playerGO.SetActive(false);
+        players.Enqueue(playerGO);
+
+        Debug.Log(playerGO.name + "Dead!");
     }
 }

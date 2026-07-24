@@ -27,7 +27,6 @@ process.stdin.on("keypress", (str, key) => {
       damage: 2,
       diamonds: 1,
       tier: "rare",
-      avatarBase64: constants.avatarBase64Test,
     });
   }
 });

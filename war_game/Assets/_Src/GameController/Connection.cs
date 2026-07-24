@@ -8,13 +8,13 @@ public class Connection : MonoBehaviour
 
     private WebSocket websocket;
 
-    private GameManager gameManagerScript;
+    private GameController gameControllerScript;
 
     private void Awake()
     {
         websocket = new WebSocket(serverUrl);
 
-        gameManagerScript = transform.GetComponent<GameManager>();
+        gameControllerScript = transform.GetComponent<GameController>();
     }
 
     async private void Start()
@@ -37,9 +37,6 @@ public class Connection : MonoBehaviour
 
             int playerDataLength = BitConverter.ToInt32(bytes, 0);
 
-            //Debug.Log("bytes: " + bytes.Length);
-            //Debug.Log("playerDataLength: " + playerDataLength);
-
             string playerDataJSON = System.Text.Encoding.UTF8.GetString(bytes, 4, playerDataLength);
             PlayerData player = JsonUtility.FromJson<PlayerData>(playerDataJSON);
 
@@ -55,7 +52,7 @@ public class Connection : MonoBehaviour
                 player.avatarBuffer = new byte[avatarLength];
                 Array.Copy(bytes, 4 + playerDataLength, player.avatarBuffer, 0, avatarLength);
 
-                gameManagerScript.PlayerDataReceiverHandler(player);
+                gameControllerScript.PlayerCreateHandler(player);
             }
             else Debug.LogError("?");
         };
