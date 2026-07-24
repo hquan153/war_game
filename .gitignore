@@ -18,3 +18,4 @@ war_game/Packages/com.merry-yellow.code-assist
 *.sln
 *.slnx
 *.vsconfig
+*.bin

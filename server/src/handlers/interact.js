@@ -12,9 +12,9 @@ const giftConfig = require("../untils/gift_config");
 
 const attendedIds = [];
 const borderColors = ["green", "red", "black", "yellow", "orange"];
-
 const interact = async (viewerData) => {
-  if (isAttendPlayer(viewerData.user.displayId)) return;
+  // if (isAttendPlayer(viewerData.user.displayId)) return;
+  // console.log("test");
 
   viewerData.diamondCount = viewerData.gift?.diamondCount || 0;
 
@@ -30,3 +30,5 @@ const interact = async (viewerData) => {
 
 tiktokConnection.on(WebcastEvent.CHAT, interact);
 tiktokConnection.on(WebcastEvent.GIFT, interact);
+
+module.exports = interact;

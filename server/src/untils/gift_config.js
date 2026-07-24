@@ -1,6 +1,6 @@
 class Gift {
-  constructor(displayerId, color, borderColor, tier, size, health, damage, diamondCount, avatarBuffer) {
-    this.displayerId = displayerId || "";
+  constructor(displayId, color, borderColor, tier, size, health, damage, diamondCount, avatarBuffer) {
+    this.displayId = displayId || "";
     this.color = color;
     this.borderColor = borderColor || "black";
     this.tier = tier;

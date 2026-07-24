@@ -46,6 +46,6 @@ public class GameController : MonoBehaviour
         playerGO.SetActive(false);
         players.Enqueue(playerGO);
 
-        Debug.Log(playerGO.name + "Dead!");
+        //Debug.Log(playerGO.name + "Dead!");
     }
 }

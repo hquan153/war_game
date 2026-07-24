@@ -3,9 +3,14 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    private const int speed = 6;
     private const string splitChar = "_";
 
     private GameController gameControllerScript;
+
+    private Rigidbody2D rigidbody2d;
+
+    private TMP_Text healthTMP;
 
     private int health;
     //private int damage;
@@ -13,11 +18,12 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         gameControllerScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        rigidbody2d = transform.GetComponent<Rigidbody2D>();
+        healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
     }
 
     private void Start()
     {
-
     }
 
     private void Update()
@@ -25,12 +31,32 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        rigidbody2d.linearVelocity = new Vector2(-speed, Random.Range(-speed, speed));
+    }
+
+    private void OnDisable()
+    {
+        rigidbody2d.linearVelocity = Vector2.zero;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Debug.Log(collision.transform.name);
+        if (!collision.transform.name.Contains("Player")) return;
+
         int collisionDamage = int.Parse(collision.transform.name.Split(splitChar)[0]);
         health -= collisionDamage;
 
+        healthTMP.text = health.ToString();
+
         Dead();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        transform.GetComponent<Collider2D>().isTrigger = false;
     }
 
     private void Render(Sprite avatarSprite, PlayerData player)
@@ -56,18 +82,19 @@ public class Player : MonoBehaviour
 
     private void Assign(PlayerData player)
     {
-        transform.name = $"{player.damage}${splitChar}Player${splitChar}{player.displayId}";
+        transform.name = $"{player.damage}{splitChar}Player{splitChar}{player.displayId}";
 
         health = player.health;
         //damage = player.damage;
 
-        transform.Find("Health").GetComponent<TMP_Text>().text = health.ToString();
+        healthTMP.text = health.ToString();
     }
 
     private void Dead()
     {
         if (health > 0) return;
-        Debug.Log($"Player {transform.name} is dead!");
+        //Debug.Log($"Player {transform.name} is dead!");
+        transform.localPosition = Vector3.zero;
         gameControllerScript.PlayerDeadHandler(gameObject);
     }
 
