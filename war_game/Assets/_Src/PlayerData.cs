@@ -1,3 +1,5 @@
+using UnityEngine;
+
 [System.Serializable]
 public class PlayerData
 {
@@ -10,6 +12,7 @@ public class PlayerData
     public int diamondCount;
     public string tier;
     public byte[] avatarBuffer;
+    public Sprite avatarSprite;
 
     public bool isWelcome;
     public string message;

@@ -8,9 +8,13 @@ public class GameController : MonoBehaviour
 
     private WebSocket websocket;
 
+    private PlayerController playerControllerScript;
+
     private void Awake()
     {
         websocket = new WebSocket(serverUrl);
+
+        playerControllerScript = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>();
     }
 
     async private void Start()
@@ -48,7 +52,7 @@ public class GameController : MonoBehaviour
                 player.avatarBuffer = new byte[avatarLength];
                 Array.Copy(bytes, 4 + playerDataLength, player.avatarBuffer, 0, avatarLength);
 
-                GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>().PlayerCreateHandler(player);
+                playerControllerScript.Players = player;
             }
             else Debug.LogError("?");
         };

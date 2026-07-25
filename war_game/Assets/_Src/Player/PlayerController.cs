@@ -1,46 +1,53 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private GameObject[] playerArray;
+    private const string playerPrefabPath = "Prefabs/Player";
+    protected const string splitChar = "_";
+
+    private const int spawnInterval = 500; // miliseconds
+    private bool isSpawning = false;
+
     private readonly Queue<GameObject> playersGO = new();
-    private readonly Queue<GameObject> players = new();
+    private readonly Queue<PlayerData> players = new();
+    public PlayerData Players { set { players.Enqueue(value); } }
 
     private void Awake()
     {
-        playerArray = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in playerArray)
+        foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player"))
         {
-            playersGO.Enqueue(player);
-            player.SetActive(false);
+            playersGO.Enqueue(playerGO);
+            playerGO.SetActive(false);
         }
     }
 
-    void Start()
+    private void Update()
     {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
-    public void PlayerCreateHandler(PlayerData player)
-    {
+        if (isSpawning || players.Count == 0) return;
+        GameObject playerGO;
         if (playersGO.Count == 0)
         {
-            Debug.Log("No available player object in the queue:");
-            return;
+            playerGO = Resources.Load<GameObject>(playerPrefabPath);
+            Instantiate(playerGO, transform.localPosition, Quaternion.identity, transform);
+            playerGO.name = "Player";
+        }
+        else
+        {
+            playerGO = playersGO.Dequeue();
+            playerGO.SetActive(true);
         }
 
-        GameObject playerGO = playersGO.Dequeue();
-        playerGO.SetActive(true);
+        PlayerData player = players.Dequeue();
+        player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 
-        Sprite avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
-        playerGO.GetComponent<Player>().Create(player, avatarSprite);
+        Render(playerGO.transform, player);
+        Assign(playerGO.transform, player);
+
+        isSpawning = true;
+        Task.Delay(spawnInterval).ContinueWith(_ => isSpawning = false);
     }
 
     private Sprite CreateSpriteFromBuffer(byte[] avatarBuffer)
@@ -76,11 +83,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Render(Transform playerTransform, PlayerData player)
+    {
+        playerTransform.localScale = new Vector3(player.size, player.size, player.size); // scale
+
+        playerTransform.Find("Avatar").GetComponent<SpriteRenderer>().sprite = player.avatarSprite; // avatar
+
+        if (ColorUtility.TryParseHtmlString(player.borderColor.ToLower(), out Color newBorderColor))
+            playerTransform.Find("Border").GetComponent<SpriteRenderer>().color = newBorderColor; // border color
+        else Debug.LogWarning($"{player.borderColor} is invalid color string!");
+
+        if (player.tier != "base")
+        {
+            if (ColorUtility.TryParseHtmlString(player.color.ToLower(), out Color newColor))
+                playerTransform.Find("Saw Blade").GetComponent<SpriteRenderer>().color = newColor; // saw blade color
+            else Debug.LogWarning($"{player.color} is invalid color string!");
+        }
+        else playerTransform.Find("Saw Blade").GetComponent<SpriteRenderer>().enabled = false;
+
+        //Debug.Log("Rendered!");
+    }
+
+    private void Assign(Transform playerTransform, PlayerData player)
+    {
+        // name: damge_Player_displayId
+        playerTransform.name = $"{player.damage}{splitChar}Player{splitChar}{player.displayId}";
+        playerTransform.GetComponent<Player>().Health = player.health;
+
+        Debug.Log(playerTransform.GetComponent<Player>().Health);
+    }
+
     protected void PlayerDeadHandler(GameObject playerGO)
     {
+        playerGO.name = "Player";
         playerGO.SetActive(false);
         playersGO.Enqueue(playerGO);
 
-        Debug.Log(playerGO.name + " Dead!");
+        //Debug.Log($"{playerGO.name} Dead!");
     }
 }
