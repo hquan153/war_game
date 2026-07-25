@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         if (playersGO.Count == 0)
         {
             playerGO = Resources.Load<GameObject>(playerPrefabPath);
-            Instantiate(playerGO, transform.localPosition, Quaternion.identity, transform);
+            playerGO = Instantiate(playerGO, transform.localPosition, Quaternion.identity, transform);
             playerGO.name = "Player";
         }
         else
@@ -116,8 +116,8 @@ public class PlayerController : MonoBehaviour
     protected void PlayerDeadHandler(GameObject playerGO)
     {
         playerGO.name = "Player";
-        playerGO.SetActive(false);
         playersGO.Enqueue(playerGO);
+        playerGO.SetActive(false);
 
         //Debug.Log($"{playerGO.name} Dead!");
     }
