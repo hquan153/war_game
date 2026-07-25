@@ -1,12 +1,10 @@
 using UnityEngine;
 using TMPro;
 
-public class Player : MonoBehaviour
+public class Player : PlayerController
 {
     private const int speed = 6;
     private const string splitChar = "_";
-
-    private GameController gameControllerScript;
 
     private Rigidbody2D rigidbody2d;
 
@@ -17,7 +15,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        gameControllerScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
     }
@@ -95,7 +92,7 @@ public class Player : MonoBehaviour
         if (health > 0) return;
         //Debug.Log($"Player {transform.name} is dead!");
         transform.localPosition = Vector3.zero;
-        gameControllerScript.PlayerDeadHandler(gameObject);
+        base.PlayerDeadHandler(gameObject);
     }
 
     public void Create(PlayerData player, Sprite avatarSprite)

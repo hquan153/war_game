@@ -1,51 +1,73 @@
+using System;
+using NativeWebSocket;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
-    private AvatarLoader avatarLoaderScript;
+    private const string serverUrl = "ws://127.0.0.1:8080";
 
-    private GameObject[] playerArray;
-    private readonly Queue<GameObject> players = new();
+    private WebSocket websocket;
 
     private void Awake()
     {
-        Application.runInBackground = true;
+        websocket = new WebSocket(serverUrl);
+    }
 
-        avatarLoaderScript = transform.GetComponent<AvatarLoader>();
-
-        playerArray = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in playerArray)
+    async private void Start()
+    {
+        websocket.OnOpen += () =>
         {
-            players.Enqueue(player);
-            player.SetActive(false);
-        }
-    }
+            Debug.Log("Connection open!");
+        };
 
-    private void Start()
-    {
-    }
+        websocket.OnError += (e) => Debug.Log("Error! " + e);
 
-    public void PlayerCreateHandler(PlayerData player)
-    {
-        if (players.Count == 0)
+        websocket.OnClose += (code) =>
         {
-            Debug.Log("No available player object in the queue:");
-            return;
-        }
+            Debug.Log("Connection closed!");
+        };
 
-        GameObject playerGO = players.Dequeue();
-        playerGO.SetActive(true);
+        websocket.OnMessage += (bytes) =>
+        {
+            if (bytes == null || bytes.Length < 4) return;
 
-        Sprite avatarSprite = avatarLoaderScript.CreateSpriteFromBuffer(player.avatarBuffer);
-        playerGO.GetComponent<Player>().Create(player, avatarSprite);
+            int playerDataLength = BitConverter.ToInt32(bytes, 0);
+
+            string playerDataJSON = System.Text.Encoding.UTF8.GetString(bytes, 4, playerDataLength);
+            PlayerData player = JsonUtility.FromJson<PlayerData>(playerDataJSON);
+
+            if (player.isWelcome)
+            {
+                Debug.Log(player.message);
+                return;
+            }
+
+            int avatarLength = bytes.Length - 4 - playerDataLength;
+            if (avatarLength > 0)
+            {
+                player.avatarBuffer = new byte[avatarLength];
+                Array.Copy(bytes, 4 + playerDataLength, player.avatarBuffer, 0, avatarLength);
+
+                GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>().PlayerCreateHandler(player);
+            }
+            else Debug.LogError("?");
+        };
+
+        await websocket.Connect();
     }
 
-    public void PlayerDeadHandler(GameObject playerGO)
+    private void Update()
     {
-        playerGO.SetActive(false);
-        players.Enqueue(playerGO);
+        websocket.DispatchMessageQueue();
+    }
 
-        //Debug.Log(playerGO.name + "Dead!");
+    private async void OnApplicationQuit()
+    {
+        await websocket.Close();
+    }
+
+    async public void ReconnectToServer()
+    {
+        await websocket.Connect();
     }
 }
