@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour
     private const string playerPrefabPath = "Prefabs/Player";
     protected const string splitChar = "_";
 
-    private const int spawnInterval = 500; // miliseconds
+    private const int spawnInterval = 400; // miliseconds
     private bool isSpawning = false;
 
-    private readonly Queue<GameObject> playersGO = new();
+    private static readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> players = new();
     public PlayerData Players { set { players.Enqueue(value); } }
 
@@ -115,10 +115,11 @@ public class PlayerController : MonoBehaviour
 
     protected void PlayerDeadHandler(GameObject playerGO)
     {
-        playerGO.name = "Player";
         playersGO.Enqueue(playerGO);
+        playerGO.name = "Player";
         playerGO.SetActive(false);
 
+        Debug.Log($"{playersGO.Count}");
         //Debug.Log($"{playerGO.name} Dead!");
     }
 }

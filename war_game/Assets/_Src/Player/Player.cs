@@ -7,6 +7,10 @@ public class Player : PlayerController
 
     private Rigidbody2D rigidbody2d;
 
+    /*private PlayerData m_Player
+    {
+    }*/
+
     private TMP_Text healthTMP;
 
     private int health;
@@ -16,7 +20,7 @@ public class Player : PlayerController
         set
         {
             health = value;
-            transform.Find("Health").GetComponent<TMP_Text>().text = health.ToString();
+            healthTMP.text = health.ToString();
         }
     }
 
@@ -26,24 +30,16 @@ public class Player : PlayerController
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
     }
 
-    private void OnEnable()
-    {
-        rigidbody2d.linearVelocity = new Vector2(-speed, Random.Range(-speed, speed));
-    }
-
-    private void OnDisable()
-    {
-        rigidbody2d.linearVelocity = Vector2.zero;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(collision.transform.name);
+        if (!collision.transform.CompareTag("DeathZone"))
+        {
+            return;
+        }
         if (!collision.transform.name.Contains("Player") || !collision.transform.name.Contains(splitChar)) return;
 
         Health -= int.Parse(collision.transform.name.Split(splitChar)[0]);
-        Debug.Log(int.Parse(collision.transform.name.Split(splitChar)[0]));
-
         healthTMP.text = Health.ToString();
 
         IsDead();
@@ -54,11 +50,19 @@ public class Player : PlayerController
         transform.GetComponent<Collider2D>().isTrigger = false;
     }
 
+    private void OnEnable()
+    {
+        rigidbody2d.linearVelocity = new Vector2(-speed, Random.Range(-speed, speed));
+    }
+
     private void IsDead()
     {
         if (Health > 0) return;
-        Debug.Log($"Player {transform.name} is dead!");
+        //Debug.Log($"Player {transform.name} is dead!");
+        
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        rigidbody2d.linearVelocity = Vector2.zero;
+        
         base.PlayerDeadHandler(gameObject);
     }
 }

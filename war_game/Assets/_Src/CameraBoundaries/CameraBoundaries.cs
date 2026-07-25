@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class CameraBoundaries : MonoBehaviour
 {
-    private readonly Vector2 extend = new(1.05f, 1.1f);
+    protected Camera camera;
+    protected Vector2 extend;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        Camera camera = transform.GetComponent<Camera>();
+        camera = transform.GetComponent<Camera>();
+        extend = new(1.05f, 1.1f);
+    }
 
+    protected void Start()
+    {
         Vector2 bottomLeft = camera.ScreenToWorldPoint(new Vector3(0, 0, camera.nearClipPlane)) * extend;
         Vector2 topRight = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, camera.nearClipPlane)) * extend;
         Vector2 topLeft = new(bottomLeft.x, topRight.y);
