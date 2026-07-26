@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerController
+  - DeathZone
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,4 @@
-class Gift {
+class Player {
   constructor(displayId, color, borderColor, tier, size, health, damage, diamondCount, avatarBuffer) {
     this.displayId = displayId || "";
     this.color = color;
@@ -15,6 +15,16 @@ class Gift {
   }
 }
 
+const playerConfig = [
+  new Player(null, "white", null, "base", 0.4, 20, 0, 0, null),
+  new Player(null, "blue", null, "rare", 1, 50, 2, 1, null),
+  new Player(null, "purple", null, "mythic", 2, 100, 2, 5, null),
+  new Player(null, "yellow", null, "legendary", 3.5, 500, 15, 10, null),
+  new Player(null, "red", null, "god", 6, 10000, 50, 200, null),
+];
+
+module.exports = playerConfig;
+
 /**
  * 0 (comment) - base
  * 1 - rare
@@ -24,13 +34,3 @@ class Gift {
  */
 
 // displayId, color, bordeColor, tier, size, health, damage, diamondCount, avatarBuffer
-
-const giftConfig = [
-  new Gift(null, "white", null, "base", 0.4, 20, 0, 0, null),
-  new Gift(null, "blue", null, "rare", 1, 50, 2, 1, null),
-  new Gift(null, "purple", null, "mythic", 2, 100, 2, 5, null),
-  new Gift(null, "yellow", null, "legendary", 3.5, 500, 15, 10, null),
-  new Gift(null, "red", null, "god", 6, 10000, 50, 100, null),
-];
-
-module.exports = giftConfig;

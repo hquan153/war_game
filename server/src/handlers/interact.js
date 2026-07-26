@@ -7,8 +7,8 @@ const fetchAvatarAsBuffer = require("./fetch_avatar");
 const sendToUnity = require("./send_to_unity");
 
 const constants = require("../untils/constants");
-const giftConfig = require("../untils/gift_config");
-// console.log(giftConfig);
+const playerConfig = require("../untils/player_config");
+// console.log(playerConfig);
 
 const attendedIds = [];
 const borderColors = ["green", "red", "black", "yellow", "orange"];
@@ -19,7 +19,7 @@ const interact = async (viewerData) => {
   viewerData.diamondCount = viewerData.gift?.diamondCount || 0;
 
   const interactionData =
-    giftConfig.find((gift) => gift.diamondCount === viewerData.diamondCount) || giftConfig[0];
+    playerConfig.find((gift) => gift.diamondCount === viewerData.diamondCount) || playerConfig[0];
 
   interactionData.displayId = viewerData.user.displayId;
   interactionData.avatarBuffer = await fetchAvatarAsBuffer(viewerData.user.avatarThumb.urlList);

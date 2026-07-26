@@ -6,14 +6,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private const string playerPrefabPath = "Prefabs/Player";
-    protected const string splitChar = "_";
+    public readonly string splitChar = "_";
 
-    private const int spawnInterval = 400; // miliseconds
+    [SerializeField] private int spawnInterval = 800; // miliseconds
     private bool isSpawning = false;
 
-    private static readonly Queue<GameObject> playersGO = new();
-    private readonly Queue<PlayerData> players = new();
-    public PlayerData Players { set { players.Enqueue(value); } }
+    private readonly Queue<GameObject> playersGO = new();
+    private readonly Queue<PlayerData> m_players = new();
+    public PlayerData Players
+    {
+        get => m_players.Dequeue();
+        set { m_players.Enqueue(value); }
+    }
+
+    //private int m_playersCount = 0;
 
     private void Awake()
     {
@@ -26,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (isSpawning || players.Count == 0) return;
+        //m_playersCount = m_players.Count;
+        if (isSpawning || m_players.Count == 0) return;
         GameObject playerGO;
         if (playersGO.Count == 0)
         {
@@ -40,13 +47,15 @@ public class PlayerController : MonoBehaviour
             playerGO.SetActive(true);
         }
 
-        PlayerData player = players.Dequeue();
+        isSpawning = true;
+
+
+        PlayerData player = Players;
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 
         Render(playerGO.transform, player);
         Assign(playerGO.transform, player);
 
-        isSpawning = true;
         Task.Delay(spawnInterval).ContinueWith(_ => isSpawning = false);
     }
 
@@ -95,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
         if (player.tier != "base")
         {
+            playerTransform.Find("Saw Blade").GetComponent<SpriteRenderer>().enabled = true;
             if (ColorUtility.TryParseHtmlString(player.color.ToLower(), out Color newColor))
                 playerTransform.Find("Saw Blade").GetComponent<SpriteRenderer>().color = newColor; // saw blade color
             else Debug.LogWarning($"{player.color} is invalid color string!");
@@ -108,18 +118,17 @@ public class PlayerController : MonoBehaviour
     {
         // name: damge_Player_displayId
         playerTransform.name = $"{player.damage}{splitChar}Player{splitChar}{player.displayId}";
-        playerTransform.GetComponent<Player>().Health = player.health;
+        Player playerScript = playerTransform.GetComponent<Player>();
+        playerScript.Health = player.health;
+        playerScript.PlayerF = player;
 
-        Debug.Log(playerTransform.GetComponent<Player>().Health);
+        //Debug.Log(playerTransform.GetComponent<Player>().Health);
     }
 
-    protected void PlayerDeadHandler(GameObject playerGO)
+    public void PlayerDeadHandler(GameObject playerGO)
     {
         playersGO.Enqueue(playerGO);
         playerGO.name = "Player";
         playerGO.SetActive(false);
-
-        Debug.Log($"{playersGO.Count}");
-        //Debug.Log($"{playerGO.name} Dead!");
     }
 }

@@ -1,45 +1,56 @@
 using UnityEngine;
 using TMPro;
 
-public class Player : PlayerController
+public class Player : MonoBehaviour
 {
-    private const int speed = 6;
+    private const float xVelocity = 8f;
+    private const float yVelocity = 4f;
+
+    private PlayerController playerControllerScript;
 
     private Rigidbody2D rigidbody2d;
-
-    /*private PlayerData m_Player
-    {
-    }*/
-
     private TMP_Text healthTMP;
+    private Collider2D playerCollider;
 
-    private int health;
+    private PlayerData m_playerData;
+    public PlayerData PlayerF
+    {
+        get => m_playerData;
+        set { m_playerData = value; }
+    }
+
+    private int m_health;
     public int Health
     {
-        get => health;
+        get => m_health;
         set
         {
-            health = value;
-            healthTMP.text = health.ToString();
+            m_health = value;
+            healthTMP.text = m_health.ToString();
         }
     }
 
     private void Awake()
     {
+        playerControllerScript = transform.GetComponentInParent<PlayerController>();
+
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
+        playerCollider = transform.GetComponent<Collider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(collision.transform.name);
-        if (!collision.transform.CompareTag("DeathZone"))
+        if (collision.transform.CompareTag("DeathZone"))
         {
+            IsDead(true);
+            playerControllerScript.Players = PlayerF;
             return;
         }
-        if (!collision.transform.name.Contains("Player") || !collision.transform.name.Contains(splitChar)) return;
+        if (!collision.transform.name.Contains("Player") || !collision.transform.name.Contains(playerControllerScript.splitChar)) return;
 
-        Health -= int.Parse(collision.transform.name.Split(splitChar)[0]);
+        Health -= int.Parse(collision.transform.name.Split(playerControllerScript.splitChar)[0]);
         healthTMP.text = Health.ToString();
 
         IsDead();
@@ -47,22 +58,22 @@ public class Player : PlayerController
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        transform.GetComponent<Collider2D>().isTrigger = false;
+        if (collision.transform.CompareTag("MainCamera")) playerCollider.isTrigger = false;
     }
 
     private void OnEnable()
     {
-        rigidbody2d.linearVelocity = new Vector2(-speed, Random.Range(-speed, speed));
+        rigidbody2d.linearVelocity = new Vector2(-xVelocity, Random.Range(-yVelocity, yVelocity));
+        playerCollider.isTrigger = true;
     }
 
-    private void IsDead()
+    private void IsDead(bool isDead = false)
     {
-        if (Health > 0) return;
-        //Debug.Log($"Player {transform.name} is dead!");
-        
+        if (Health > 0 && !isDead) return;
+
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         rigidbody2d.linearVelocity = Vector2.zero;
-        
-        base.PlayerDeadHandler(gameObject);
+
+        playerControllerScript.PlayerDeadHandler(gameObject);
     }
 }
