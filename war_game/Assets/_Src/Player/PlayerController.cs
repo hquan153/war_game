@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int spawnInterval = 800; // miliseconds
     private bool isSpawning = false;
 
+    private GameObject[] playersRawGO;
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
     public PlayerData Players
@@ -23,7 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player"))
+        playersRawGO = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject playerGO in playersRawGO)
         {
             playersGO.Enqueue(playerGO);
             playerGO.SetActive(false);
@@ -34,11 +36,22 @@ public class PlayerController : MonoBehaviour
     {
         //m_playersCount = m_players.Count;
         if (isSpawning || m_players.Count == 0) return;
-        GameObject playerGO;
-        if (playersGO.Count == 0)
+
+        PlayerData player = Players;
+        GameObject playerGO = null;
+        if (player.attended)
         {
-            playerGO = Resources.Load<GameObject>(playerPrefabPath);
-            playerGO = Instantiate(playerGO, transform.localPosition, Quaternion.identity, transform);
+            foreach (GameObject playerRawGO in playersRawGO)
+            {
+                if (playerRawGO.name.Split(splitChar)[2] != player.displayId) continue;
+                playerGO = playerRawGO;
+                break;
+            }
+        }
+        else if (playersGO.Count == 0)
+        {
+            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
             playerGO.name = "Player";
         }
         else
@@ -49,8 +62,6 @@ public class PlayerController : MonoBehaviour
 
         isSpawning = true;
 
-
-        PlayerData player = Players;
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 
         Render(playerGO.transform, player);

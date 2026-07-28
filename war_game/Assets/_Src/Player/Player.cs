@@ -4,7 +4,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     private const float xVelocity = 8f;
-    private const float yVelocity = 4f;
+    private const float yVelocity = 3f;
 
     private PlayerController playerControllerScript;
 

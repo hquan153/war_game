@@ -14,14 +14,14 @@ const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {
   flag: "r",
 });
 
-/* tiktokConnection
+tiktokConnection
   .connect()
   .then((state) => {
     console.info(`Connected to roomId ${state.roomId}`);
   })
   .catch((err) => {
     console.error("Failed to connect", err);
-  }); */
+  });
 
 const sendToUnity = require("../handlers/send_to_unity");
 
@@ -45,7 +45,7 @@ process.stdin.on("keypress", (str, key) => {
       borderColor: "green",
       avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
     });
-  } else if (key.name === "p") {
+  } else if (key.name === "m") {
     console.log("send rare to unity!");
     sendToUnity({
       ...playerConfig[2],
@@ -53,7 +53,7 @@ process.stdin.on("keypress", (str, key) => {
       borderColor: "black",
       avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
     });
-  } else if (key.name === "y") {
+  } else if (key.name === "l") {
     console.log("send rare to unity!");
     sendToUnity({
       ...playerConfig[3],

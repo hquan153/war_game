@@ -2,7 +2,7 @@ const { WebcastEvent } = require("tiktok-live-connector");
 
 const tiktokConnection = require("../connections/tiktok");
 
-const isAttendPlayer = require("./is_attend_player");
+const attendedPlayer = require("./attended_player");
 const fetchAvatarAsBuffer = require("./fetch_avatar");
 const sendToUnity = require("./send_to_unity");
 
@@ -13,17 +13,20 @@ const playerConfig = require("../untils/player_config");
 const attendedIds = [];
 const borderColors = ["green", "red", "black", "yellow", "orange"];
 const interact = async (viewerData) => {
-  // if (isAttendPlayer(viewerData.user.displayId)) return;
-  // console.log("test");
-
   viewerData.diamondCount = viewerData.gift?.diamondCount || 0;
+  const { isSendToUnity, attended } = attendedPlayer(viewerData.user.displayId, viewerData.diamondCount);
+  console.error(isSendToUnity);
+  if (!isSendToUnity) return;
+
+  // console.log("test");
 
   const interactionData =
     playerConfig.find((gift) => gift.diamondCount === viewerData.diamondCount) || playerConfig[0];
 
   interactionData.displayId = viewerData.user.displayId;
-  interactionData.avatarBuffer = await fetchAvatarAsBuffer(viewerData.user.avatarThumb.urlList);
+  interactionData.attended = attended;
   interactionData.borderColor = borderColors[Math.floor(Math.random() * borderColors.length)];
+  interactionData.avatarBuffer = await fetchAvatarAsBuffer(viewerData.user.avatarThumb.urlList);
 
   sendToUnity({ ...interactionData });
 };

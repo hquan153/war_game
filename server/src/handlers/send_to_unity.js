@@ -13,7 +13,7 @@ const sendToUnity = (interactionData) => {
 
   unityClient.send(convertToBuffer(interactionData), { binary: true });
 
-  console.log(`[Sent to Unity]: ${i}, coin: ${interactionData.diamondCount}`);
+  console.log(`[Sent to Unity]: coin: ${interactionData.diamondCount}, ${i}`);
   i++;
 };
 

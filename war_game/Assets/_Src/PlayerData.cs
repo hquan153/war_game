@@ -11,6 +11,7 @@ public class PlayerData
     public int damage;
     public int diamondCount;
     public string tier;
+    public bool attended;
     public byte[] avatarBuffer;
     public Sprite avatarSprite;
 
