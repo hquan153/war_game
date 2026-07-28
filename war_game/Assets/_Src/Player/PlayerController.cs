@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameController gameControllerScript;
+
     private const string playerPrefabPath = "Prefabs/Player";
     public readonly string splitChar = "_";
 
-    [SerializeField] private int spawnInterval = 800; // miliseconds
+    [SerializeField] private int spawnInterval = 1000; // miliseconds
     private bool isSpawning = false;
 
-    private GameObject[] playersRawGO;
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
     public PlayerData Players
@@ -24,8 +25,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playersRawGO = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject playerGO in playersRawGO)
+        gameControllerScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
+        foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player"))
         {
             playersGO.Enqueue(playerGO);
             playerGO.SetActive(false);
@@ -41,12 +43,19 @@ public class PlayerController : MonoBehaviour
         GameObject playerGO = null;
         if (player.attended)
         {
-            foreach (GameObject playerRawGO in playersRawGO)
+            //Debug.Log("donated!");
+            foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
             {
-                if (playerRawGO.name.Split(splitChar)[2] != player.displayId) continue;
+                if (playerRawGO.name.Contains( player.displayId)) continue;
                 playerGO = playerRawGO;
                 break;
             }
+            Debug.LogWarning(playerGO);
+
+            if (playerGO != null) return;
+            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
+            playerGO.name = "Player";
         }
         else if (playersGO.Count == 0)
         {
@@ -132,12 +141,14 @@ public class PlayerController : MonoBehaviour
         Player playerScript = playerTransform.GetComponent<Player>();
         playerScript.Health = player.health;
         playerScript.PlayerF = player;
-
+        playerTransform.GetComponent<Rigidbody2D>().mass = player.mass;
         //Debug.Log(playerTransform.GetComponent<Player>().Health);
     }
 
     public void PlayerDeadHandler(GameObject playerGO)
     {
+        gameControllerScript.RemovePlayer(playerGO.name.Split(splitChar)[2]);
+
         playersGO.Enqueue(playerGO);
         playerGO.name = "Player";
         playerGO.SetActive(false);

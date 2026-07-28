@@ -6,11 +6,12 @@ public class PlayerData
     public string displayId;
     public string color;
     public string borderColor;
-    public int health;
+    public string tier;
+    public float mass;
     public float size;
+    public int health;
     public int damage;
     public int diamondCount;
-    public string tier;
     public bool attended;
     public byte[] avatarBuffer;
     public Sprite avatarSprite;

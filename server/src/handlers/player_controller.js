@@ -1,8 +1,6 @@
 const displayIds = [];
 
 const attendedPlayer = (displayId, diamondCount) => {
-  console.log(displayIds, displayId);
-
   let isSendToUnity = true;
   for (const displayIdAttend of displayIds) {
     if (diamondCount !== 0) break;
@@ -20,4 +18,13 @@ const attendedPlayer = (displayId, diamondCount) => {
   return { isSendToUnity, attended: true };
 };
 
-module.exports = attendedPlayer;
+const removePlayer = (displayId, isAll = false) => {
+  if (isAll) {
+    displayIds.length = 0;
+    return;
+  }
+
+  displayIds.splice(displayIds.indexOf(displayId));
+};
+
+module.exports = { attendedPlayer, removePlayer };

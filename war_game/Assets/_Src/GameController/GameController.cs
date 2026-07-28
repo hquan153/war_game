@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
         playerControllerScript = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>();
     }
 
-    async private void Start()
+    private async void Start()
     {
         websocket.OnOpen += () =>
         {
@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
             {
                 player.avatarBuffer = new byte[avatarLength];
                 Array.Copy(bytes, 4 + playerDataLength, player.avatarBuffer, 0, avatarLength);
-
+                //Debug.Log("received the interaction data!");
                 playerControllerScript.Players = player;
             }
             else Debug.LogError("?");
@@ -70,8 +70,21 @@ public class GameController : MonoBehaviour
         await websocket.Close();
     }
 
-    async public void ReconnectToServer()
+    public async void Reconnect()
     {
         await websocket.Connect();
+    }
+
+    public async void RemovePlayer(string displayId)
+    {
+        if (websocket.State == WebSocketState.Open)
+        {
+            //Debug.Log("send to server");
+            await websocket.SendText(displayId);
+        }
+        else
+        {
+            Debug.LogError("Server is not ready to connect!");
+        }
     }
 }

@@ -8,7 +8,7 @@ public class CameraBoundaries : MonoBehaviour
     protected virtual void Awake()
     {
         camera = transform.GetComponent<Camera>();
-        extend = new(1.05f, 1.1f);
+        extend = new(1f, 1f);
     }
 
     protected void Start()
