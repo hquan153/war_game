@@ -2,7 +2,7 @@ const WebSocket = require("ws");
 
 const app = require("../index");
 
-const { player } = require("../handlers/player");
+const player = require("../handlers/player");
 
 const convertToBuffer = require("../untils/convert_to_buffer");
 const constants = require("../untils/constants");
@@ -18,7 +18,7 @@ websocket.on("connection", (ws) => {
   ws.send(convertToBuffer({ message: "Welcome to the WebSocket server!", isWelcome: true }));
 
   ws.on("message", (displayId) => {
-    console.log(`[WS] received displayId: ${displayId}`);
+    // console.log(`[WS] received displayId: ${displayId}`);
     player.remove(displayId);
   });
 

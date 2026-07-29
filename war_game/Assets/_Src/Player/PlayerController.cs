@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     private const string playerPrefabPath = "Prefabs/Player";
     public readonly string splitChar = "_";
 
-    [SerializeField] private int spawnInterval = 1000; // miliseconds
-    private bool isSpawning = false;
+    //[SerializeField] private int spawnInterval = 1000; // miliseconds
+    //private bool isSpawning = false;
 
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //m_playersCount = m_players.Count;
-        if (isSpawning || m_players.Count == 0) return;
+        if (/*isSpawning ||*/ m_players.Count == 0) return;
 
         PlayerData player = Players;
         GameObject playerGO = null;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("donated!");
             foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
             {
-                if (playerRawGO.name.Contains( player.displayId)) continue;
+                if (!playerRawGO.name.Contains(player.displayId)) continue;
                 playerGO = playerRawGO;
                 break;
             }
@@ -69,14 +69,14 @@ public class PlayerController : MonoBehaviour
             playerGO.SetActive(true);
         }
 
-        isSpawning = true;
+        //isSpawning = true;
 
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 
         Render(playerGO.transform, player);
         Assign(playerGO.transform, player);
 
-        Task.Delay(spawnInterval).ContinueWith(_ => isSpawning = false);
+        //Task.Delay(spawnInterval).ContinueWith(_ => isSpawning = false);
     }
 
     private Sprite CreateSpriteFromBuffer(byte[] avatarBuffer)
