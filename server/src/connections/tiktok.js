@@ -2,7 +2,7 @@ const { TikTokLiveConnection } = require("tiktok-live-connector");
 const fs = require("fs");
 const readline = require("readline");
 
-const playerConfig = require("../untils/player_config");
+const { playerConfig } = require("../handlers/player");
 
 const constants = require("../untils/constants");
 

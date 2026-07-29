@@ -2,7 +2,7 @@ const WebSocket = require("ws");
 
 const app = require("../index");
 
-const { removePlayer } = require("../handlers/player_controller");
+const { player } = require("../handlers/player");
 
 const convertToBuffer = require("../untils/convert_to_buffer");
 const constants = require("../untils/constants");
@@ -19,12 +19,12 @@ websocket.on("connection", (ws) => {
 
   ws.on("message", (displayId) => {
     console.log(`[WS] received displayId: ${displayId}`);
-    removePlayer(displayId);
+    player.remove(displayId);
   });
 
   ws.on("close", () => {
     console.log(`[WS]: Unity disconnected from WebSocket.`);
-    removePlayer(null, true);
+    player.remove(null, true);
     app.locals.unityClient = null;
   });
 });
