@@ -3,8 +3,7 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    private const float xVelocity = 8f;
-    private const float yVelocity = 3f;
+    private const float speed = 10f;
 
     private PlayerController playerControllerScript;
 
@@ -41,7 +40,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log(collision.transform.name);
         if (collision.transform.CompareTag("DeathZone"))
         {
             IsDead(true);
@@ -63,8 +61,7 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        rigidbody2d.linearVelocity = new Vector2(-xVelocity, Random.Range(-yVelocity, yVelocity));
-        playerCollider.isTrigger = true;
+        rigidbody2d.linearVelocity = (new Vector2(Random.Range(-10, 10), Random.Range(-10, 10))).normalized * speed;
     }
 
     private void IsDead(bool isDead = false)

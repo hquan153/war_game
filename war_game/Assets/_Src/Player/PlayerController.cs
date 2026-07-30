@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,9 +9,6 @@ public class PlayerController : MonoBehaviour
     private const string playerPrefabPath = "Prefabs/Player";
     public readonly string splitChar = "_";
 
-    //[SerializeField] private int spawnInterval = 1000; // miliseconds
-    //private bool isSpawning = false;
-
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
     public PlayerData Players
@@ -21,7 +17,7 @@ public class PlayerController : MonoBehaviour
         set { m_players.Enqueue(value); }
     }
 
-    //private int m_playersCount = 0;
+    private int m_playersCount = 0;
 
     private void Awake()
     {
@@ -36,26 +32,33 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //m_playersCount = m_players.Count;
-        if (/*isSpawning ||*/ m_players.Count == 0) return;
-
+        m_playersCount = m_players.Count;
+        if (m_players.Count == 0) return;
         PlayerData player = Players;
         GameObject playerGO = null;
         if (player.attended)
         {
-            //Debug.Log("donated!");
             foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
             {
                 if (!playerRawGO.name.Contains(player.displayId)) continue;
                 playerGO = playerRawGO;
                 break;
             }
-            Debug.LogWarning(playerGO);
 
-            if (playerGO != null) return;
-            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
-            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-            playerGO.name = "Player";
+            if (playerGO == null)
+            {
+                foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    if (!playerRawGO.name.Contains(player.displayId)) continue;
+                    playerGO = playerRawGO;
+                    break;
+                }
+
+                if (playerGO != null) return;
+                GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+                playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
+                playerGO.name = "Player";
+            }
         }
         else if (playersGO.Count == 0)
         {
@@ -69,14 +72,10 @@ public class PlayerController : MonoBehaviour
             playerGO.SetActive(true);
         }
 
-        //isSpawning = true;
-
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 
         Render(playerGO.transform, player);
         Assign(playerGO.transform, player);
-
-        //Task.Delay(spawnInterval).ContinueWith(_ => isSpawning = false);
     }
 
     private Sprite CreateSpriteFromBuffer(byte[] avatarBuffer)

@@ -8,7 +8,7 @@ const circleShape = Buffer.from(
 const fetchAvatarAsBuffer = async (avatarUrl) => {
   try {
     const response = await axios.get(avatarUrl, { responseType: "arraybuffer" });
-    const roundedPngBuffer = await sharp(response.data)
+    return await sharp(response.data)
       .resize(72, 72)
       .composite([
         {
@@ -18,8 +18,6 @@ const fetchAvatarAsBuffer = async (avatarUrl) => {
       ])
       .png()
       .toBuffer();
-
-    return roundedPngBuffer;
   } catch (error) {
     console.error("Error when fetch/convert avatar:", error);
     return null;

@@ -1,7 +1,7 @@
 const constants = {
   port: 3000,
   wsPort: process.env.PORT || 8080,
-  tiktokUsername: "@willend09",
+  username: "@ductoan.muc",
 
   playerConfig: [
     {
@@ -11,7 +11,7 @@ const constants = {
       tier: "base",
       mass: 1,
       size: 0.4,
-      health: 20,
+      health: 10,
       damage: 1,
       diamondCount: 0,
       attended: null,
@@ -25,7 +25,7 @@ const constants = {
       color: "blue",
       borderColor: null,
       tier: "rare",
-      mass: 1.5,
+      mass: 2,
       size: 1,
       health: 200,
       damage: 3,
@@ -41,7 +41,7 @@ const constants = {
       color: "purple",
       borderColor: null,
       tier: "mythic",
-      mass: 3,
+      mass: 5,
       size: 2,
       health: 500,
       damage: 10,
@@ -57,7 +57,7 @@ const constants = {
       color: "yellow",
       borderColor: null,
       tier: "legendary",
-      mass: 10,
+      mass: 20,
       size: 3.5,
       health: 2000,
       damage: 40,
@@ -73,7 +73,7 @@ const constants = {
       color: "red",
       borderColor: null,
       tier: "god",
-      mass: 50,
+      mass: 100,
       size: 6,
       health: 10000,
       damage: 100,
@@ -87,4 +87,4 @@ const constants = {
   ],
 };
 
-module.exports = constants;
+module.exports = { ...constants };

@@ -9,19 +9,21 @@ const tiktokConnection = require("../connections/tiktok");
 const constants = require("../untils/constants");
 
 const interact = async (viewerData) => {
-  // console.log(viewerData.gift?.diamondCount);
+  if (tiktokConnection._connectState !== "CONNECTED") return;
 
-  // const unityClient = app.locals?.unityClient;
-  // if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
+  const unityClient = app.locals?.unityClient;
+  if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
 
-  if (player.isPlayerQueuing(viewerData.user.displayId) && viewerData.gift?.diamondCount === 0) return;
-
-  const playerData =
-    constants.playerConfig.find((tier) => tier.diamondCount === viewerData.gift?.diamondCount || 0) ||
+  const matchedConfig =
+    constants.playerConfig.find((tier) => tier.diamondCount === (viewerData.gift?.diamondCount || 0)) ||
     constants.playerConfig[0];
 
-  playerData.displayId = viewerData.user.displayId;
-  playerData.avatarUrl = viewerData.user.avatarThumb.urlList;
+  const playerData = {
+    ...matchedConfig,
+    displayId: viewerData.user.displayId,
+    avatarUrl: viewerData.user.avatarThumb.urlList,
+  };
+
   player.enqueue({ ...playerData });
 };
 

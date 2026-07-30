@@ -7,48 +7,40 @@ const borderColors = ["green", "red", "black", "yellow", "orange"];
 const playerQueue = [];
 const displayIds = [];
 
-const spawnInterval = 400; // miliseconds
+const checkInterval = 50;
+const spawnInterval = 250;
 
 const player = {
-  init() {
-    setInterval(() => {
-      if (playerQueue.length === 0) return;
-      // const unityClient = app.locals?.unityClient;
-      // if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
-
-      this.dequeue();
-    }, spawnInterval);
-  },
-
-  isPlayerQueuing(displayId) {
-    return playerQueue.map((player) => player.displayId).includes(displayId);
-  },
-
   enqueue(playerData) {
+    // console.log(playerData.displayId);
     playerQueue.push(playerData);
   },
 
   async dequeue() {
-    console.log(playerQueue.length);
+    const playerData = { ...playerQueue.shift() };
 
-    const playerData = playerQueue.shift();
-
-    const { isSendToUnity, attended } = this.attended(playerData.displayId, playerData.diamondCount);
-    console.log(playerData.displayId, playerData.diamondCount, isSendToUnity, attended);
+    const { isSendToUnity, attended } = this.attended({ ...playerData });
+    console.log(
+      playerQueue.length,
+      playerData.displayId,
+      playerData.diamondCount,
+      playerData.tier,
+      isSendToUnity,
+      attended,
+    );
     if (!isSendToUnity) return;
-
-    if (playerData.diamondCount > 0) {
-      // console.log(playerData);
-    }
 
     playerData.attended = attended;
     playerData.borderColor = borderColors[Math.floor(Math.random() * borderColors.length)];
     playerData.avatarBuffer = await fetchAvatarAsBuffer(playerData.avatarUrl);
 
-    // app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
+    // console.log(`queue: ${playerQueue.map((player) => player.displayId)}`);
+    // console.log(`attended: ${displayIds}`);
+
+    await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
   },
 
-  attended(displayId, diamondCount) {
+  attended({ displayId, diamondCount }) {
     let isSendToUnity = true;
     for (const displayIdAttend of displayIds) {
       if (diamondCount !== 0) break;
@@ -74,8 +66,21 @@ const player = {
 
     displayIds.splice(displayIds.indexOf(displayId));
   },
+
+  async sleep(ms) {
+    await new Promise((res) => setTimeout(res, ms));
+  },
 };
 
-player.init();
+(async () => {
+  while (true) {
+    const unityClient = app.locals?.unityClient;
+    if (playerQueue.length > 0 && unityClient && unityClient.readyState === WebSocket.OPEN) {
+      await player.dequeue();
+      await player.sleep(spawnInterval);
+    }
+    await player.sleep(checkInterval);
+  }
+})();
 
-module.exports = player;
+module.exports = { ...player };

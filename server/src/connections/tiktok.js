@@ -7,8 +7,7 @@ const app = require("../index");
 const constants = require("../untils/constants");
 const convertToBuffer = require("../untils/convert_to_buffer");
 
-const tiktokUsername = constants.tiktokUsername;
-const tiktokConnection = new TikTokLiveConnection(tiktokUsername, {});
+const tiktokConnection = new TikTokLiveConnection(constants.username, { processInitialData: false });
 
 const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {
   encoding: "utf8",
