@@ -10,11 +10,14 @@ public class GameController : MonoBehaviour
 
     private PlayerController playerControllerScript;
 
+    private GameObject disconnectedUI;
+
     private void Awake()
     {
         websocket = new WebSocket(serverUrl);
 
         playerControllerScript = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>();
+        disconnectedUI = GameObject.FindGameObjectWithTag("Disconnected");
     }
 
     private async void Start()
@@ -22,6 +25,7 @@ public class GameController : MonoBehaviour
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection open!");
+            disconnectedUI.SetActive(false);
         };
 
         websocket.OnError += (e) => Debug.Log("Error! " + e);
@@ -29,6 +33,7 @@ public class GameController : MonoBehaviour
         websocket.OnClose += (code) =>
         {
             Debug.Log("Connection closed!");
+            disconnectedUI.SetActive(true);
         };
 
         websocket.OnMessage += (bytes) =>
@@ -39,12 +44,6 @@ public class GameController : MonoBehaviour
 
             string playerDataJSON = System.Text.Encoding.UTF8.GetString(bytes, 4, playerDataLength);
             PlayerData player = JsonUtility.FromJson<PlayerData>(playerDataJSON);
-
-            if (player.isWelcome)
-            {
-                Debug.Log(player.message);
-                return;
-            }
 
             int avatarLength = bytes.Length - 4 - playerDataLength;
             if (avatarLength > 0)
@@ -77,14 +76,7 @@ public class GameController : MonoBehaviour
 
     public async void RemovePlayer(string displayId)
     {
-        if (websocket.State == WebSocketState.Open)
-        {
-            //Debug.Log("send to server");
-            await websocket.SendText(displayId);
-        }
-        else
-        {
-            Debug.LogError("Server is not ready to connect!");
-        }
+        if (websocket.State == WebSocketState.Open) await websocket.SendText(displayId);
+        else Debug.LogError("Server is not ready to connect!");
     }
 }

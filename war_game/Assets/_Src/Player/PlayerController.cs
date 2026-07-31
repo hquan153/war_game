@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
         set { m_players.Enqueue(value); }
     }
 
-    private int m_playersCount = 0;
+    //private int m_playersCount = 0;
 
     private void Awake()
     {
@@ -32,11 +32,29 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        m_playersCount = m_players.Count;
+        //m_playersCount = m_players.Count;
         if (m_players.Count == 0) return;
+
         PlayerData player = Players;
-        GameObject playerGO = null;
-        if (player.attended)
+        GameObject playerGO;
+
+        if (player.diamondCount > 0 || !player.attended)
+        {
+            if (playersGO.Count > 0)
+            {
+                playerGO = playersGO.Dequeue();
+                playerGO.SetActive(true);
+            }
+            else
+            {
+                GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+                playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
+                playerGO.name = "Player";
+            }
+        }
+        else return;
+
+        /*if (player.attended)
         {
             foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
             {
@@ -45,7 +63,12 @@ public class PlayerController : MonoBehaviour
                 break;
             }
 
-            if (playerGO == null)
+            if (playerGO != null) return;
+            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
+            playerGO.name = "Player";
+
+            *//*if (playerGO == null)
             {
                 foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
                 {
@@ -58,7 +81,7 @@ public class PlayerController : MonoBehaviour
                 GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
                 playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
                 playerGO.name = "Player";
-            }
+            }*//*
         }
         else if (playersGO.Count == 0)
         {
@@ -70,7 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             playerGO = playersGO.Dequeue();
             playerGO.SetActive(true);
-        }
+        }*/
 
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 

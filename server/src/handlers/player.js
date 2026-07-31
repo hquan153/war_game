@@ -43,7 +43,7 @@ const player = {
   attended({ displayId, diamondCount }) {
     let isSendToUnity = true;
     for (const displayIdAttend of displayIds) {
-      if (diamondCount !== 0) break;
+      if (diamondCount > 0) break;
       else if (displayIdAttend === displayId) {
         isSendToUnity = false;
         break;

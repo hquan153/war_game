@@ -1,7 +1,8 @@
 const constants = {
   port: 3000,
   wsPort: process.env.PORT || 8080,
-  username: "@ductoan.muc",
+  username: process.env.TIKTOK_USERNAME || "@thay.beo.tnt",
+  sessionId: process.env.SESSION_ID || "34a5e29039af1d97e7211d9ac2888209",
 
   playerConfig: [
     {
@@ -17,8 +18,6 @@ const constants = {
       attended: null,
       avatarUrl: "",
       avatarBuffer: "",
-      isWelcome: false,
-      message: "",
     },
     {
       displayId: "",
@@ -33,8 +32,6 @@ const constants = {
       attended: null,
       avatarUrl: "",
       avatarBuffer: "",
-      isWelcome: false,
-      message: "",
     },
     {
       displayId: "",
@@ -49,8 +46,6 @@ const constants = {
       attended: null,
       avatarUrl: "",
       avatarBuffer: "",
-      isWelcome: false,
-      message: "",
     },
     {
       displayId: "",
@@ -65,8 +60,6 @@ const constants = {
       attended: null,
       avatarUrl: "",
       avatarBuffer: "",
-      isWelcome: false,
-      message: "",
     },
     {
       displayId: "",
@@ -81,8 +74,6 @@ const constants = {
       attended: null,
       avatarUrl: "",
       avatarBuffer: "",
-      isWelcome: false,
-      message: "",
     },
   ],
 };

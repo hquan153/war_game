@@ -3,7 +3,8 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    private const float speed = 10f;
+    private const float degree = 360;
+    private const float speed = 20f;
 
     private PlayerController playerControllerScript;
 
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        rigidbody2d.linearVelocity = (new Vector2(Random.Range(-10, 10), Random.Range(-10, 10))).normalized * speed;
+        rigidbody2d.linearVelocity = (new Vector2(Random.Range(-degree, degree), Random.Range(-degree, degree))).normalized * speed;
     }
 
     private void IsDead(bool isDead = false)
