@@ -24,7 +24,7 @@ const interact = async (viewerData) => {
     avatarUrl: viewerData.user.avatarThumb.urlList,
   };
 
-  player.enqueue({ ...playerData });
+  for (let i = 0; i < (viewerData.repeatCount ?? 1); i++) player.enqueue({ ...playerData });
 };
 
 tiktokConnection.on(WebcastEvent.CHAT, interact);

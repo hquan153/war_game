@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private GameController gameControllerScript;
 
     private const string playerPrefabPath = "Prefabs/Player";
-    public readonly string splitChar = "_";
+    public readonly string splitChar = " ";
 
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
@@ -53,47 +53,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         else return;
-
-        /*if (player.attended)
-        {
-            foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
-            {
-                if (!playerRawGO.name.Contains(player.displayId)) continue;
-                playerGO = playerRawGO;
-                break;
-            }
-
-            if (playerGO != null) return;
-            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
-            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-            playerGO.name = "Player";
-
-            *//*if (playerGO == null)
-            {
-                foreach (GameObject playerRawGO in GameObject.FindGameObjectsWithTag("Player"))
-                {
-                    if (!playerRawGO.name.Contains(player.displayId)) continue;
-                    playerGO = playerRawGO;
-                    break;
-                }
-
-                if (playerGO != null) return;
-                GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
-                playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-                playerGO.name = "Player";
-            }*//*
-        }
-        else if (playersGO.Count == 0)
-        {
-            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
-            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-            playerGO.name = "Player";
-        }
-        else
-        {
-            playerGO = playersGO.Dequeue();
-            playerGO.SetActive(true);
-        }*/
 
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 

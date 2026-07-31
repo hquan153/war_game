@@ -7,8 +7,8 @@ const borderColors = ["green", "red", "black", "yellow", "orange"];
 const playerQueue = [];
 const displayIds = [];
 
-const checkInterval = 50;
-const spawnInterval = 250;
+const checkInterval = 40;
+const spawnInterval = 180;
 
 const player = {
   enqueue(playerData) {
@@ -41,21 +41,12 @@ const player = {
   },
 
   attended({ displayId, diamondCount }) {
-    let isSendToUnity = true;
-    for (const displayIdAttend of displayIds) {
-      if (diamondCount > 0) break;
-      else if (displayIdAttend === displayId) {
-        isSendToUnity = false;
-        break;
-      }
-    }
+    const m_attended = displayIds.includes(displayId);
+    const isSendToUnity = diamondCount > 0 || !m_attended;
 
-    if (!displayIds.includes(displayId)) {
-      displayIds.push(displayId);
-      return { isSendToUnity, attended: false };
-    }
+    !m_attended && displayIds.push(displayId);
 
-    return { isSendToUnity, attended: true };
+    return { isSendToUnity, attended: m_attended };
   },
 
   remove(displayId, isAll = false) {
@@ -75,7 +66,7 @@ const player = {
 (async () => {
   while (true) {
     const unityClient = app.locals?.unityClient;
-    if (playerQueue.length > 0 && unityClient && unityClient.readyState === WebSocket.OPEN) {
+    if (playerQueue.length > 0 && unityClient?.readyState === WebSocket.OPEN) {
       await player.dequeue();
       await player.sleep(spawnInterval);
     }

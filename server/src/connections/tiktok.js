@@ -9,7 +9,7 @@ const convertToBuffer = require("../untils/convert_to_buffer");
 
 const tiktokConnection = new TikTokLiveConnection(constants.username, {
   processInitialData: false,
-  sessionId: "34a5e29039af1d97e7211d9ac2888209",
+  // sessionId: constants.sessionId,
 });
 
 const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {

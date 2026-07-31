@@ -26,14 +26,14 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Connection open!");
             disconnectedUI.SetActive(false);
+            Time.timeScale = 1f;
         };
-
-        websocket.OnError += (e) => Debug.Log("Error! " + e);
 
         websocket.OnClose += (code) =>
         {
             Debug.Log("Connection closed!");
             disconnectedUI.SetActive(true);
+            Time.timeScale = 0f;
         };
 
         websocket.OnMessage += (bytes) =>
@@ -55,6 +55,8 @@ public class GameController : MonoBehaviour
             }
             else Debug.LogError("?");
         };
+
+        websocket.OnError += (e) => Debug.Log("Error! " + e);
 
         await websocket.Connect();
     }

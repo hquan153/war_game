@@ -10,12 +10,7 @@ const fetchAvatarAsBuffer = async (avatarUrl) => {
     const response = await axios.get(avatarUrl, { responseType: "arraybuffer" });
     return await sharp(response.data)
       .resize(72, 72)
-      .composite([
-        {
-          input: circleShape,
-          blend: "dest-in",
-        },
-      ])
+      .composite([{ input: circleShape, blend: "dest-in" }])
       .png()
       .toBuffer();
   } catch (error) {
