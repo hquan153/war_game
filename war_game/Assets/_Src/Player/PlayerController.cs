@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private GameController gameControllerScript;
 
     private const string playerPrefabPath = "Prefabs/Player";
-    public readonly string splitChar = " ";
+    public readonly string splitChar = " | ";
 
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
@@ -117,18 +117,15 @@ public class PlayerController : MonoBehaviour
 
     private void Assign(Transform playerTransform, PlayerData player)
     {
-        // name: damge_Player_displayId
-        playerTransform.name = $"{player.damage}{splitChar}Player{splitChar}{player.displayId}";
-        Player playerScript = playerTransform.GetComponent<Player>();
-        playerScript.Health = player.health;
-        playerScript.PlayerF = player;
+        // name:  Player | displayId | diamondCount | damge
+        playerTransform.name = $"Player{splitChar}{player.displayId}{splitChar}{player.diamondCount}{splitChar}{player.damage}";
         playerTransform.GetComponent<Rigidbody2D>().mass = player.mass;
-        //Debug.Log(playerTransform.GetComponent<Player>().Health);
+        playerTransform.GetComponent<Player>().PlayerF = player;
     }
 
     public void PlayerDeadHandler(GameObject playerGO)
     {
-        gameControllerScript.RemovePlayer(playerGO.name.Split(splitChar)[2]);
+        gameControllerScript.RemovePlayer(playerGO.GetComponent<Player>().PlayerF.displayId);
 
         playersGO.Enqueue(playerGO);
         playerGO.name = "Player";

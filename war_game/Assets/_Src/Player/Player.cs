@@ -1,33 +1,21 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private const float degree = 360;
-    private const float speed = 20f;
+    private const float speed = 18f;
 
     private PlayerController playerControllerScript;
 
     private Rigidbody2D rigidbody2d;
     private TMP_Text healthTMP;
-    private Collider2D playerCollider;
 
-    private PlayerData m_playerData;
+    private PlayerData m_player;
     public PlayerData PlayerF
     {
-        get => m_playerData;
-        set { m_playerData = value; }
-    }
-
-    private int m_health;
-    public int Health
-    {
-        get => m_health;
-        set
-        {
-            m_health = value;
-            healthTMP.text = m_health.ToString();
-        }
+        get => m_player;
+        set { m_player = value; }
     }
 
     private void Awake()
@@ -36,28 +24,22 @@ public class Player : MonoBehaviour
 
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
-        playerCollider = transform.GetComponent<Collider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("DeathZone"))
+        Transform collisionTransform = collision.transform;
+        if (collisionTransform.CompareTag("DeathZone"))
         {
             IsDead(true);
             playerControllerScript.Players = PlayerF;
             return;
         }
-        if (!collision.transform.name.Contains("Player") || !collision.transform.name.Contains(playerControllerScript.splitChar)) return;
+        if (!collisionTransform.CompareTag("Player")) return;
 
-        Health -= int.Parse(collision.transform.name.Split(playerControllerScript.splitChar)[0]);
-        healthTMP.text = Health.ToString();
-
+        PlayerF.health -= collisionTransform.GetComponent<Player>().PlayerF.damage;
+        healthTMP.text = PlayerF.health.ToString();
         IsDead();
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.transform.CompareTag("MainCamera")) playerCollider.isTrigger = false;
     }
 
     private void OnEnable()
@@ -65,12 +47,20 @@ public class Player : MonoBehaviour
         rigidbody2d.linearVelocity = (new Vector2(Random.Range(-degree, degree), Random.Range(-degree, degree))).normalized * speed;
     }
 
+    private void OnDestroy()
+    {
+        IsDead(true);
+    }
+
     private void IsDead(bool isDead = false)
     {
-        if (Health > 0 && !isDead) return;
+        if (PlayerF.health > 0 && !isDead) return;
+        if (!gameObject.activeSelf && !isDead) return;
 
         transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         rigidbody2d.linearVelocity = Vector2.zero;
+
+        PlayerF.health = 0;
 
         playerControllerScript.PlayerDeadHandler(gameObject);
     }

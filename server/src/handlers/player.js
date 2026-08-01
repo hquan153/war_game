@@ -7,8 +7,8 @@ const borderColors = ["green", "red", "black", "yellow", "orange"];
 const playerQueue = [];
 const displayIds = [];
 
-const checkInterval = 40;
-const spawnInterval = 180;
+const checkInterval = 30;
+const spawnInterval = 170;
 
 const player = {
   enqueue(playerData) {

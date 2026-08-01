@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private const string serverUrl = "ws://127.0.0.1:8080";
+    private const int serverPort = 8080;
+    private readonly string serverUrl = $"ws://127.0.0.1:{serverPort}";
 
     private WebSocket websocket;
 
