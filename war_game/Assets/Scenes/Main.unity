@@ -758,6 +758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 712648097}
+  - component: {fileID: 712648101}
   - component: {fileID: 712648100}
   m_Layer: 0
   m_Name: Game Controller
@@ -793,6 +794,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b953d02db6d67d42bd861803cb125bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Connection
+--- !u!114 &712648101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712648096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe8aa02b06466049891a6a375491dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Launcher
 --- !u!1 &1224064586
 GameObject:
   m_ObjectHideFlags: 0
@@ -4387,8 +4400,8 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 712648097}
+  - {fileID: 519420032}
   - {fileID: 1224064587}
   - {fileID: 1774071962}
   - {fileID: 344494445}
