@@ -15,19 +15,13 @@ public class Launcher : MonoBehaviour
             return;
         }
 
-        string batPath = "";
-
-#if UNITY_EDITOR
-        batPath = Path.Combine(Application.dataPath, "../../run_server.bat");
-#else
-        batPath = Path.Combine(Application.dataPath, "../run_server.bat");
-#endif
+        string batPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../../run_server.bat"));
 
         try
         {
             ProcessStartInfo psi = new()
             {
-                FileName = Path.GetFullPath(batPath),
+                FileName = batPath,
                 UseShellExecute = true,
                 CreateNoWindow = false
             };
