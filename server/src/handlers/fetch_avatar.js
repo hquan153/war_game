@@ -19,4 +19,11 @@ const fetchAvatarAsBuffer = async (avatarUrl) => {
   }
 };
 
+/* const fs = require("fs");
+(async () => {
+  const buffer = await fetchAvatarAsBuffer();
+  fs.writeFileSync("./avatarBufferTest.txt", buffer.toString("hex"), { encoding: "utf8", flag: "w" });
+  console.log("Avatar buffer saved to avatarBufferTest.txt");
+})(); */
+
 module.exports = fetchAvatarAsBuffer;

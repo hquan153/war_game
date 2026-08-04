@@ -13,6 +13,7 @@ const websocket = new WebSocket.Server({ port: constants.wsPort }, () => {
 websocket.on("connection", (ws) => {
   console.log(`[WS]: Unity connected via WebSocket.`);
   app.locals.unityClient = ws;
+  player.init();
 
   ws.on("message", (displayId) => {
     // console.log(`[WS] received displayId: ${displayId}`);

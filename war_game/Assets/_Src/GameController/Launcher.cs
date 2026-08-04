@@ -9,6 +9,8 @@ public class Launcher : MonoBehaviour
 
     private void Awake()
     {
+        if (!transform.GetComponent<Launcher>().enabled) return;
+
         if (serverProcess != null && !serverProcess.HasExited)
         {
             Debug.Log("Server is running!");

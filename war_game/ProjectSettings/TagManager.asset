@@ -7,6 +7,8 @@ TagManager:
   - PlayerController
   - DeathZone
   - Disconnected
+  - Damage
+  - DamageController
   layers:
   - Default
   - TransparentFX

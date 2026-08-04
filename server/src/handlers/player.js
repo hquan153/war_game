@@ -1,7 +1,9 @@
 const app = require("../index");
 
 const fetchAvatarAsBuffer = require("./fetch_avatar");
+
 const convertToBuffer = require("../untils/convert_to_buffer");
+const constants = require("../untils/constants");
 
 const borderColors = ["green", "red", "black", "yellow", "orange"];
 const playerQueue = [];
@@ -11,8 +13,37 @@ const checkInterval = 30;
 const spawnInterval = 170;
 
 const player = {
+  init() {
+    const initialPlayerData = [
+      {
+        ...constants.playerConfig[0],
+        displayId: "initialPlayer",
+        borderColor: "yellow",
+        avatarUrl: constants.test.avatarUrl,
+        count: 1,
+      },
+      {
+        ...constants.playerConfig[1],
+        displayId: "initialPlayer",
+        borderColor: "red",
+        avatarUrl: constants.test.avatarUrl,
+        count: 5,
+      },
+      {
+        ...constants.playerConfig[2],
+        displayId: "initialPlayer",
+        borderColor: "purple",
+        avatarUrl: constants.test.avatarUrl,
+        count: 1,
+      },
+    ];
+
+    for (const playerData of initialPlayerData) {
+      for (let i = 0; i < playerData.count; i++) this.enqueue({ ...playerData });
+    }
+  },
+
   enqueue(playerData) {
-    // console.log(playerData.displayId);
     playerQueue.push(playerData);
   },
 
@@ -37,7 +68,9 @@ const player = {
     // console.log(`queue: ${playerQueue.map((player) => player.displayId)}`);
     // console.log(`attended: ${displayIds}`);
 
-    await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
+    await app.locals.unityClient.send(convertToBuffer(playerData), {
+      binary: true,
+    });
   },
 
   attended({ displayId, diamondCount }) {

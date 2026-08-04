@@ -4,9 +4,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private const float degree = 360;
-    private const float speed = 18f;
+    private const float speed = 8f;
 
     private PlayerController playerControllerScript;
+    private DamageController damageControllerScript;
 
     private Rigidbody2D rigidbody2d;
     private TMP_Text healthTMP;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerControllerScript = transform.GetComponentInParent<PlayerController>();
+        damageControllerScript = GameObject.FindGameObjectWithTag("DamageController").GetComponent<DamageController>();
 
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
@@ -37,8 +39,12 @@ public class Player : MonoBehaviour
         }
         if (!collisionTransform.CompareTag("Player")) return;
 
-        PlayerF.health -= collisionTransform.GetComponent<Player>().PlayerF.damage;
+        int collisionDamage = collisionTransform.GetComponent<Player>().PlayerF.damage;
+        PlayerF.health -= collisionDamage;
         healthTMP.text = PlayerF.health.ToString();
+
+        damageControllerScript.ShowDamageGO(transform.position, collisionDamage);
+
         IsDead();
     }
 

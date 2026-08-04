@@ -1,6 +1,5 @@
 const { TikTokLiveConnection } = require("tiktok-live-connector");
-const fs = require("fs");
-// const readline = require("readline");
+const readline = require("readline");
 
 const app = require("../index");
 
@@ -12,11 +11,6 @@ const tiktokConnection = new TikTokLiveConnection(constants.username, {
   // sessionId: constants.sessionId,
 });
 
-/* const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {
-  encoding: "utf8",
-  flag: "r",
-}); */
-
 tiktokConnection
   .connect()
   .then((state) => {
@@ -26,7 +20,7 @@ tiktokConnection
     console.error("Failed to connect", err);
   });
 
-/* readline.emitKeypressEvents(process.stdin);
+readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isRawMode) process.stdin.setRawMode(true);
 
 process.stdin.on("keypress", (str, key) => {
@@ -38,9 +32,9 @@ process.stdin.on("keypress", (str, key) => {
     app.locals.unityClient.send(
       convertToBuffer({
         ...constants.playerConfig[0],
-        displayId: "sangotinh09",
+        displayId: "initialPlayer",
         borderColor: "red",
-        avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
+        avatarBuffer: Buffer.from(constants.test.avatarBuffer, "hex"),
       }),
     );
   } else if (key.name === "r") {
@@ -48,9 +42,9 @@ process.stdin.on("keypress", (str, key) => {
     app.locals.unityClient.send(
       convertToBuffer({
         ...constants.playerConfig[1],
-        displayId: "sangotinh09",
+        displayId: "initialPlayer",
         borderColor: "green",
-        avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
+        avatarBuffer: Buffer.from(constants.test.avatarBuffer, "hex"),
       }),
     );
   } else if (key.name === "m") {
@@ -58,9 +52,9 @@ process.stdin.on("keypress", (str, key) => {
     app.locals.unityClient.send(
       convertToBuffer({
         ...constants.playerConfig[2],
-        displayId: "sangotinh09",
+        displayId: "initialPlayer",
         borderColor: "black",
-        avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
+        avatarBuffer: Buffer.from(constants.test.avatarBuffer, "hex"),
       }),
     );
   } else if (key.name === "l") {
@@ -68,9 +62,9 @@ process.stdin.on("keypress", (str, key) => {
     app.locals.unityClient.send(
       convertToBuffer({
         ...constants.playerConfig[3],
-        displayId: "sangotinh09",
+        displayId: "initialPlayer",
         borderColor: "orange",
-        avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
+        avatarBuffer: Buffer.from(constants.test.avatarBuffer, "hex"),
       }),
     );
   } else if (key.name === "g") {
@@ -78,12 +72,12 @@ process.stdin.on("keypress", (str, key) => {
     app.locals.unityClient.send(
       convertToBuffer({
         ...constants.playerConfig[4],
-        displayId: "sangotinh09",
+        displayId: "initialPlayer",
         borderColor: "white",
-        avatarBuffer: Buffer.from(avatarBufferTest, "hex"),
+        avatarBuffer: Buffer.from(constants.test.avatarBuffer, "hex"),
       }),
     );
   }
-}); */
+});
 
 module.exports = tiktokConnection;
