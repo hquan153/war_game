@@ -1,3 +1,5 @@
+/build
+
 # ===== SERVER =====
 server/node_modules/
 server/.env
@@ -15,6 +17,7 @@ war_game/ProfilerCaptures/
 war_game/.vs/
 war_game/Packages/com.merry-yellow.code-assist
 
+*.exe
 *.csproj
 *.sln
 *.slnx

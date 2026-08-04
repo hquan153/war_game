@@ -1,11 +1,20 @@
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Launcher : MonoBehaviour
 {
+    private static Process serverProcess;
+
     private void Awake()
     {
+        if (serverProcess != null && !serverProcess.HasExited)
+        {
+            Debug.Log("Server is running!");
+            return;
+        }
+
         string batPath = "";
 
 #if UNITY_EDITOR
@@ -18,18 +27,40 @@ public class Launcher : MonoBehaviour
         {
             ProcessStartInfo psi = new()
             {
-                FileName = batPath,
-                UseShellExecute = true, // open terminal window
-                CreateNoWindow = false, // keep the window open to see npm start log
-                WindowStyle = ProcessWindowStyle.Minimized
+                FileName = Path.GetFullPath(batPath),
+                UseShellExecute = true,
+                CreateNoWindow = false
             };
 
-            Process.Start(psi);
-            UnityEngine.Debug.Log("Called run_server.bat successfully!");
+            serverProcess = Process.Start(psi);
+            Debug.Log("Called server!");
         }
         catch (System.Exception e)
         {
-            UnityEngine.Debug.LogError("Lỗi chạy bat: " + e.Message);
+            Debug.LogError("Error opening server: " + e.Message);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (serverProcess == null || serverProcess.HasExited) return;
+
+        try
+        {
+            ProcessStartInfo killPsi = new()
+            {
+                FileName = "taskkill",
+                Arguments = $"/F /T /PID {serverProcess.Id}",
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+
+            Process.Start(killPsi);
+            Debug.Log("Successfully closed Server CMD!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error closing server: " + e.Message);
         }
     }
 }
