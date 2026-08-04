@@ -7,12 +7,6 @@
       "dependencies": {},
       "hash": "522f0c3f5c2ef7273737707effaa840c65e20e98"
     },
-    "com.merry-yellow.code-assist": {
-      "version": "file:com.merry-yellow.code-assist",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.2d.animation": {
       "version": "15.1.0",
       "depth": 0,
@@ -123,10 +117,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "2.12.4",
+      "version": "2.13.3",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.collections": "2.6.2"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.collections": {
@@ -165,7 +161,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.19.0",
+      "version": "1.20.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {

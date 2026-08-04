@@ -1,12 +1,18 @@
 using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
     private void Awake()
     {
-        string batPath = System.IO.Path.Combine(Application.dataPath, "../run_server.bat");
-        UnityEngine.Debug.Log("Đường dẫn tới file .bat: " + batPath);
+        string batPath = "";
+
+#if UNITY_EDITOR
+        batPath = Path.Combine(Application.dataPath, "../../run_server.bat");
+#else
+        batPath = Path.Combine(Application.dataPath, "../run_server.bat");
+#endif
 
         try
         {

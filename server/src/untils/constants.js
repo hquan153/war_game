@@ -1,7 +1,7 @@
 const constants = {
   port: 3000,
   wsPort: process.env.PORT || 8080,
-  username: process.env.TIKTOK_USERNAME || "@" + "nghiateno",
+  username: process.env.TIKTOK_USERNAME || "@" + "dinhlucsoccer",
   sessionId: process.env.SESSION_ID || "34a5e29039af1d97e7211d9ac2888209",
 
   playerConfig: [

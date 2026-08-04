@@ -1,6 +1,6 @@
 const { TikTokLiveConnection } = require("tiktok-live-connector");
 const fs = require("fs");
-const readline = require("readline");
+// const readline = require("readline");
 
 const app = require("../index");
 
@@ -12,10 +12,10 @@ const tiktokConnection = new TikTokLiveConnection(constants.username, {
   // sessionId: constants.sessionId,
 });
 
-const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {
+/* const avatarBufferTest = fs.readFileSync("./avatarBufferTest.txt", {
   encoding: "utf8",
   flag: "r",
-});
+}); */
 
 tiktokConnection
   .connect()
@@ -26,7 +26,7 @@ tiktokConnection
     console.error("Failed to connect", err);
   });
 
-readline.emitKeypressEvents(process.stdin);
+/* readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isRawMode) process.stdin.setRawMode(true);
 
 process.stdin.on("keypress", (str, key) => {
@@ -84,6 +84,6 @@ process.stdin.on("keypress", (str, key) => {
       }),
     );
   }
-});
+}); */
 
 module.exports = tiktokConnection;
