@@ -10,7 +10,7 @@ const playerQueue = [];
 const displayIds = [];
 
 const checkInterval = 30;
-const spawnInterval = 170;
+const spawnInterval = 200;
 
 const player = {
   init() {
