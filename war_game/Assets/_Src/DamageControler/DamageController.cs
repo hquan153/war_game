@@ -5,7 +5,7 @@ using TMPro;
 public class DamageController : MonoBehaviour
 {
     private readonly Queue<GameObject> damagesGO = new();
-    private readonly Vector3 extendPosition = new(0.2f, 0.2f, 0);
+    private readonly Vector3 extendPosition = new(.4f, .4f, 0);
 
     private void Awake()
     {

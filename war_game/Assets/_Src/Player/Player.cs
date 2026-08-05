@@ -4,7 +4,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     private const float degree = 360;
-    private const float speed = 8f;
+    private const float speed = 12f;
 
     private PlayerController playerControllerScript;
     private DamageController damageControllerScript;

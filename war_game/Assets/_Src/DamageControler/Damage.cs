@@ -4,7 +4,7 @@ public class Damage : MonoBehaviour
 {
     private DamageController damageControllerScript;
 
-    private const float speedUp = 0.04f;
+    private readonly Vector3 moveDirector = new(0, .04f, 0);
 
     private void Awake()
     {
@@ -13,7 +13,7 @@ public class Damage : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (gameObject.activeSelf) transform.position += new Vector3(0, speedUp, 0);
+        if (gameObject.activeSelf) transform.position += moveDirector;
     }
 
     public void Recall()
