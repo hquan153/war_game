@@ -9,6 +9,7 @@ TagManager:
   - Disconnected
   - Damage
   - DamageController
+  - Audio
   layers:
   - Default
   - TransparentFX

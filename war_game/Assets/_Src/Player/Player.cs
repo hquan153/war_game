@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private PlayerController playerControllerScript;
     private DamageController damageControllerScript;
 
+    private Audio audioScript;
+
     private Rigidbody2D rigidbody2d;
     private TMP_Text healthTMP;
 
@@ -28,6 +30,8 @@ public class Player : MonoBehaviour
         playerControllerScript = transform.GetComponentInParent<PlayerController>();
         damageControllerScript = GameObject.FindGameObjectWithTag("DamageController").GetComponent<DamageController>();
 
+        audioScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
+
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         healthTMP = transform.Find("Health").GetComponent<TMP_Text>();
     }
@@ -46,6 +50,8 @@ public class Player : MonoBehaviour
         int collisionDamage = collisionTransform.GetComponent<Player>().PlayerF.damage;
         PlayerF.health -= collisionDamage;
         healthTMP.text = PlayerF.health.ToString();
+
+        audioScript.PlayAudio();
 
         damageControllerScript.ShowDamageGO(transform.position, collisionDamage);
 

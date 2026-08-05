@@ -68,9 +68,13 @@ const player = {
     // console.log(`queue: ${playerQueue.map((player) => player.displayId)}`);
     // console.log(`attended: ${displayIds}`);
 
-    await app.locals.unityClient.send(convertToBuffer(playerData), {
-      binary: true,
-    });
+    try {
+      await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
+    } catch {
+      // this.enqueue(playerData);
+      // this.remove(playerData.displayId);
+      console.error("Error when send player to unity. The unity client can be null!");
+    }
   },
 
   attended({ displayId, diamondCount }) {
