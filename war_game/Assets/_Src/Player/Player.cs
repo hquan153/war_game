@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         rigidbody2d.linearVelocity = (new Vector2(Random.Range(-degree, degree), Random.Range(-degree, degree))).normalized * speed;
+        healthTMP.text = PlayerF.health.ToString();
     }
 
     private void OnDestroy()
