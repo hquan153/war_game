@@ -17,8 +17,6 @@ public class PlayerController : MonoBehaviour
         set { m_players.Enqueue(value); }
     }
 
-    //private int m_playersCount = 0;
-
     private void Awake()
     {
         gameControllerScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -32,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //m_playersCount = m_players.Count;
         if (m_players.Count == 0) return;
 
         PlayerData player = Players;
@@ -49,7 +46,6 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
                 playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-                playerGO.name = "Player";
             }
         }
         else return;

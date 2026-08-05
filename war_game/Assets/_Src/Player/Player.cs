@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -16,7 +16,11 @@ public class Player : MonoBehaviour
     public PlayerData PlayerF
     {
         get => m_player;
-        set { m_player = value; }
+        set
+        {
+            m_player = value;
+            healthTMP.text = m_player.health.ToString();
+        }
     }
 
     private void Awake()
@@ -51,7 +55,6 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         rigidbody2d.linearVelocity = (new Vector2(Random.Range(-degree, degree), Random.Range(-degree, degree))).normalized * speed;
-        healthTMP.text = PlayerF.health.ToString();
     }
 
     private void OnDestroy()
