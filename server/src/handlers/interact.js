@@ -11,6 +11,8 @@ const constants = require("../untils/constants");
 const interact = async (viewerData) => {
   if (tiktokConnection._connectState !== "CONNECTED") return;
 
+  // console.log(viewerData.user.displayId, viewerData.user.avatarThumb.urlList[0]);
+
   const unityClient = app.locals?.unityClient;
   if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
 
