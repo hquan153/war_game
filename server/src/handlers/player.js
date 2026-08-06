@@ -102,12 +102,16 @@ const player = {
 
 (async () => {
   while (true) {
-    const unityClient = app.locals?.unityClient;
-    if (playerQueue.length > 0 && unityClient?.readyState === WebSocket.OPEN) {
-      await player.dequeue();
-      await player.sleep(spawnInterval);
+    try {
+      const unityClient = app.locals?.unityClient;
+      if (playerQueue.length > 0 && unityClient?.readyState === WebSocket.OPEN) {
+        await player.dequeue();
+        await player.sleep(spawnInterval);
+      }
+      await player.sleep(checkInterval);
+    } catch {
+      console.error("ERROR IN IIFE!");
     }
-    await player.sleep(checkInterval);
   }
 })();
 

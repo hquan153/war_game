@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void Render(Transform playerTransform, PlayerData player)
     {
-        playerTransform.localScale = new Vector3(player.size, player.size, player.size); // scale
+        playerTransform.localScale = Vector3.zero; // scale
 
         playerTransform.Find("Avatar").GetComponent<SpriteRenderer>().sprite = player.avatarSprite; // avatar
 

@@ -6,11 +6,11 @@ const player = require("../handlers/player");
 
 const constants = require("../untils/constants");
 
-const websocket = new WebSocket.Server({ port: constants.wsPort }, () => {
+const wss = new WebSocket.Server({ port: constants.wsPort }, () => {
   console.log(`[WS]: ${constants.wsPort}`);
 });
 
-websocket.on("connection", (ws) => {
+wss.on("connection", (ws) => {
   console.log(`[WS]: Unity connected via WebSocket.`);
   app.locals.unityClient = ws;
   player.init();
