@@ -9,12 +9,21 @@ public class Launcher : MonoBehaviour
 
     private void Awake()
     {
-        if (!transform.GetComponent<Launcher>().enabled) return;
+        LaunchServer();
+    }
 
+    private void OnApplicationQuit()
+    {
+        KillServer();
+    }
+
+    public void LaunchServer()
+    {
         if (serverProcess != null && !serverProcess.HasExited)
         {
-            Debug.Log("Server is running!");
-            return;
+            Debug.Log("Server is running...");
+            Debug.Log("Restarting server...");
+            KillServer();
         }
 
         string batPath = Path.GetFullPath(Path.Combine(Application.dataPath, "../../run_server.bat"));
@@ -29,7 +38,7 @@ public class Launcher : MonoBehaviour
             };
 
             serverProcess = Process.Start(psi);
-            Debug.Log("Called server!");
+            Debug.Log("Server is started!");
         }
         catch (System.Exception e)
         {
@@ -37,7 +46,7 @@ public class Launcher : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    public void KillServer()
     {
         if (serverProcess == null || serverProcess.HasExited) return;
 

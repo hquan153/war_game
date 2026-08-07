@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         {
             growTimer += Time.deltaTime;
             transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * PlayerF.size, growTimer / growTime);
+            SetAlphaForChildren(Mathf.Lerp(0f, 1f, growTimer / growTime));
 
             if (growTimer < growTime) return;
             growTimer = 0f;
@@ -134,6 +135,9 @@ public class Player : MonoBehaviour
     private void SetAlphaForChildren(float alpha)
     {
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+        {
+            Color color = spriteRenderer.color;
+            spriteRenderer.color = new Color(color.r, color.g, color.b, alpha);
+        }
     }
 }

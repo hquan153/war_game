@@ -1,6 +1,7 @@
 using System;
 using NativeWebSocket;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
@@ -25,16 +26,22 @@ public class GameController : MonoBehaviour
     {
         websocket.OnOpen += () =>
         {
-            Debug.Log("Connection open!");
-            disconnectedUI.SetActive(false);
             Time.timeScale = 1f;
+
+            disconnectedUI.SetActive(false);
+            Cursor.visible = false;
+
+            Debug.Log("Connection open!");
         };
 
         websocket.OnClose += (code) =>
         {
-            Debug.Log("Connection closed!");
-            disconnectedUI.SetActive(true);
             Time.timeScale = 0f;
+
+            disconnectedUI.SetActive(true);
+            Cursor.visible = true;
+
+            Debug.Log("Connection closed!");
         };
 
         websocket.OnMessage += (bytes) =>
@@ -65,6 +72,12 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         websocket.DispatchMessageQueue();
+
+        if (!Keyboard.current.escapeKey.wasPressedThisFrame) return;
+        if (websocket.State != WebSocketState.Open) return;
+
+        disconnectedUI.SetActive(!disconnectedUI.activeSelf);
+        Cursor.visible = disconnectedUI.activeSelf;
     }
 
     private async void OnApplicationQuit()
@@ -74,7 +87,7 @@ public class GameController : MonoBehaviour
 
     public async void Reconnect()
     {
-        await websocket.Connect();
+        if (websocket.State != WebSocketState.Open) await websocket.Connect();
     }
 
     public async void RemovePlayer(string displayId)
