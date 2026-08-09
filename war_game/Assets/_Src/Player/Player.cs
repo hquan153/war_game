@@ -1,10 +1,10 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private const float degree = 360;
-    private const float speed = 12f;
+    private const int degree = 360;
+    private const int minSpeed = 8;
 
     private PlayerController playerControllerScript;
     private DamageController damageControllerScript;
@@ -99,7 +99,9 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        rigidbody2d.linearVelocity = (new Vector2(Random.Range(-degree, degree), Random.Range(-degree, degree))).normalized * speed;
+        Vector2 direction = new(Random.Range(-degree, degree), Random.Range(-degree, degree));
+        int speed = Random.Range(minSpeed, minSpeed + 4);
+        rigidbody2d.linearVelocity = (direction.normalized * speed);
         isGrowing = true;
     }
 

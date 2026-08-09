@@ -9,7 +9,7 @@ public class Launcher : MonoBehaviour
 
     private void Awake()
     {
-        LaunchServer();
+        if (transform.GetComponent<Launcher>().enabled) LaunchServer();
     }
 
     private void OnApplicationQuit()

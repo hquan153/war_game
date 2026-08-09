@@ -3,17 +3,11 @@ const fs = require("fs");
 const constants = {
   port: 3000,
   wsPort: process.env.PORT || 8080,
-  username: process.env.TIKTOK_USERNAME || "@" + "chuhtvn",
-  sessionId: process.env.SESSION_ID || "34a5e29039af1d97e7211d9ac2888209",
+  username: "@" + process.env.TIKTOK_USERNAME,
+  // sessionId: process.env.SESSION_ID || "",
 
   test: {
-    avatarUrl:
-      process.env.AVATAR_URL ||
-      "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/938fe119f397e15c67dea9884b41a71a~tplv-tiktok-shrink:72:72.webp?dr=14561&refresh_token=0ad9b12a&x-expires=1786204800&x-signature=F7xndhRf1iNZrDK4lUCBrIqrseM%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=my2",
-    avatarBuffer: fs.readFileSync("src/assets/avatarBufferTest.txt", {
-      encoding: "utf8",
-      flag: "r",
-    }),
+    avatarBuffer: fs.readFileSync("src/assets/avatarBufferTest.png"),
   },
 
   playerConfig: [

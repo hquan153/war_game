@@ -6,10 +6,10 @@ TagManager:
   tags:
   - PlayerController
   - DeathZone
-  - Disconnected
   - Damage
   - DamageController
   - Audio
+  - SetttingUI
   layers:
   - Default
   - TransparentFX

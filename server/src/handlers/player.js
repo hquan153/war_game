@@ -1,6 +1,6 @@
 const app = require("../index");
 
-const fetchAvatarAsBuffer = require("./fetch_avatar");
+const avatarGetter = require("./avatar_getter");
 
 const convertToBuffer = require("../untils/convert_to_buffer");
 const constants = require("../untils/constants");
@@ -19,26 +19,26 @@ const player = {
         ...constants.playerConfig[0],
         displayId: "initialPlayer",
         borderColor: "yellow",
-        avatarUrl: constants.test.avatarUrl,
         count: 1,
       },
       {
         ...constants.playerConfig[1],
         displayId: "initialPlayer",
         borderColor: "red",
-        avatarUrl: constants.test.avatarUrl,
         count: 5,
       },
       {
         ...constants.playerConfig[2],
         displayId: "initialPlayer",
         borderColor: "purple",
-        avatarUrl: constants.test.avatarUrl,
         count: 1,
       },
     ];
 
     for (const playerData of initialPlayerData) {
+      playerData.isInit = true;
+      playerData.avatarBuffer = constants.test.avatarBuffer;
+
       for (let i = 0; i < playerData.count; i++) this.enqueue({ ...playerData });
     }
   },
@@ -50,30 +50,20 @@ const player = {
   async dequeue() {
     const playerData = { ...playerQueue.shift() };
 
-    const { isSendToUnity, attended } = this.attended({ ...playerData });
-    console.log(
-      playerQueue.length,
-      playerData.displayId,
-      playerData.diamondCount,
-      playerData.tier,
-      isSendToUnity,
-      attended,
-    );
-    if (!isSendToUnity) return;
+    if (!playerData.isInit) {
+      const isSendToUnity = this.attended({ ...playerData });
+      console.log(playerQueue.length, playerData.displayId, playerData.diamondCount, playerData.tier, isSendToUnity);
 
-    playerData.attended = attended;
+      if (!isSendToUnity) return;
+
+      playerData.avatarBuffer = await avatarGetter(playerData.avatarUrl);
+    }
+
     playerData.borderColor = borderColors[Math.floor(Math.random() * borderColors.length)];
-    playerData.avatarBuffer = await fetchAvatarAsBuffer(playerData.avatarUrl);
-
-    // console.log(`queue: ${playerQueue.map((player) => player.displayId)}`);
-    // console.log(`attended: ${displayIds}`);
-
     try {
       await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
-    } catch {
-      // this.enqueue(playerData);
-      // this.remove(playerData.displayId);
-      console.error("Error when send player to unity. The unity client can be null!");
+    } catch (error) {
+      console.error(`Error when send player to unity: ${error}`);
     }
   },
 
@@ -83,7 +73,7 @@ const player = {
 
     !m_attended && displayIds.push(displayId);
 
-    return { isSendToUnity, attended: m_attended };
+    return isSendToUnity;
   },
 
   remove(displayId, isAll = false) {
@@ -109,8 +99,8 @@ const player = {
         await player.sleep(spawnInterval);
       }
       await player.sleep(checkInterval);
-    } catch {
-      console.error("ERROR IN IIFE!");
+    } catch (error) {
+      console.error(`ERROR IN IIFE!: ${error}`);
     }
   }
 })();

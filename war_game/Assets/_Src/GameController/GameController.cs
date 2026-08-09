@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
         websocket = new WebSocket(serverUrl);
 
         playerControllerScript = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>();
-        disconnectedUI = GameObject.FindGameObjectWithTag("Disconnected");
+        disconnectedUI = GameObject.FindGameObjectWithTag("SettingUI");
     }
 
     private async void Start()

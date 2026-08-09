@@ -4,7 +4,6 @@
 # ===== SERVER =====
 server/node_modules/
 server/.env
-server/test.js
 *.log
 
 # ===== UNITY =====
