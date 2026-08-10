@@ -9,31 +9,42 @@ const borderColors = ["green", "red", "black", "yellow", "orange"];
 const playerQueue = [];
 const displayIds = [];
 
-const checkInterval = 30;
-const spawnInterval = 200;
+const checkInterval = 25;
+const spawnInterval = 225;
 
+const minPlayer = 4;
 let playerCount = 0;
 
 const player = {
-  init() {
-    const initialPlayerData = [
-      {
-        ...constants.playerConfig[0],
-        count: 8,
-      },
-      {
-        ...constants.playerConfig[1],
-        count: 0,
-      },
-      {
-        ...constants.playerConfig[2],
-        count: 1,
-      },
-    ];
+  initialPlayersData: [
+    {
+      ...constants.playerConfig[0],
+      count: 2,
+    },
+    {
+      ...constants.playerConfig[1],
+      count: 2,
+    },
+    {
+      ...constants.playerConfig[2],
+      count: 1,
+    },
+    {
+      ...constants.playerConfig[3],
+      count: 0,
+    },
+    {
+      ...constants.playerConfig[4],
+      count: 0,
+    },
+  ],
 
-    for (const playerData of initialPlayerData) {
-      playerData.displayId = "initialPlayer";
+  init(newPlayersData = null) {
+    const playersData = newPlayersData ?? this.initialPlayersData;
+    for (const playerData of playersData) {
       playerData.isInit = true;
+      playerData.displayId = "initialPlayer";
+      playerData.count = playerData.count ?? 1;
       playerData.avatarBuffer = constants.test.avatarBuffer;
 
       for (let i = 0; i < playerData.count; i++) this.enqueue({ ...playerData });
@@ -84,6 +95,13 @@ const player = {
     playerCount--;
   },
 
+  playerCountController() {
+    // console.log(playerCount);
+    if (playerCount >= minPlayer) return;
+    const playerData = constants.playerConfig[Math.floor(Math.random() * 2)];
+    this.init([{ ...playerData }]);
+  },
+
   async sleep(ms) {
     await new Promise((res) => setTimeout(res, ms));
   },
@@ -91,13 +109,14 @@ const player = {
 
 (async () => {
   while (true) {
+    await player.sleep(checkInterval);
     try {
       const unityClient = app.locals?.unityClient;
-      if (playerQueue.length > 0 && unityClient?.readyState === WebSocket.OPEN) {
-        await player.dequeue();
-        await player.sleep(spawnInterval);
-      }
-      await player.sleep(checkInterval);
+      if (unityClient?.readyState !== WebSocket.OPEN) continue;
+      player.playerCountController();
+      if (playerQueue.length === 0) continue;
+      await player.dequeue();
+      await player.sleep(spawnInterval);
     } catch (error) {
       console.error(`ERROR IN IIFE!: ${error}`);
     }

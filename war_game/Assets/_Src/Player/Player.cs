@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
     private const float deadTime = growTime;
     private float deadTimer = 0f;
     private bool isDisappearing = false;
+
+    private Vector2 currentVelocity;
 
     private void Awake()
     {
@@ -75,6 +77,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*private void FixedUpdate()
+    {
+        if (isGrowing || isDisappearing) return;
+        if (PlayerF.health <= 0) return;
+
+        currentVelocity = rigidbody2d.linearVelocity;
+        if (Mathf.Abs(currentVelocity.x) <= .8f || Mathf.Abs(currentVelocity.y) <= .8f)
+        {
+            Vector2 direction = Vector3.zero - transform.position;
+            int speed = Random.Range(minSpeed, minSpeed + 4);
+            rigidbody2d.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
+        }
+    }*/
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Transform collisionTransform = collision.transform;
@@ -101,7 +117,7 @@ public class Player : MonoBehaviour
     {
         Vector2 direction = new(Random.Range(-degree, degree), Random.Range(-degree, degree));
         int speed = Random.Range(minSpeed, minSpeed + 4);
-        rigidbody2d.linearVelocity = (direction.normalized * speed);
+        rigidbody2d.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
         isGrowing = true;
     }
 

@@ -82,6 +82,7 @@ const constants = {
       avatarBuffer: null,
     },
   ],
+  playerTierKey: ["b", "r", "m", "l", "g"],
 };
 
 module.exports = { ...constants };
