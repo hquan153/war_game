@@ -12,10 +12,6 @@ public class PlayerData
     public int health;
     public int damage;
     public int diamondCount;
-    public bool attended;
     public byte[] avatarBuffer;
     public Sprite avatarSprite;
-
-    public bool isWelcome;
-    public string message;
 }

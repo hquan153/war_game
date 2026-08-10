@@ -35,20 +35,16 @@ public class PlayerController : MonoBehaviour
         PlayerData player = Players;
         GameObject playerGO;
 
-        if (player.diamondCount > 0 || !player.attended)
+        if (playersGO.Count > 0)
         {
-            if (playersGO.Count > 0)
-            {
-                playerGO = playersGO.Dequeue();
-                playerGO.SetActive(true);
-            }
-            else
-            {
-                GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
-                playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
-            }
+            playerGO = playersGO.Dequeue();
+            playerGO.SetActive(true);
         }
-        else return;
+        else
+        {
+            GameObject newPlayerGO = Resources.Load<GameObject>(playerPrefabPath);
+            playerGO = Instantiate(newPlayerGO, transform.localPosition, Quaternion.identity, transform);
+        }
 
         player.avatarSprite = CreateSpriteFromBuffer(player.avatarBuffer);
 

@@ -21,8 +21,8 @@ public class Launcher : MonoBehaviour
     {
         if (serverProcess != null && !serverProcess.HasExited)
         {
-            Debug.Log("Server is running...");
-            Debug.Log("Restarting server...");
+            Debug.Log("[LAUNCHER]: Server is running...");
+            Debug.Log("[LAUNCHER]: Restarting server...");
             KillServer();
         }
 
@@ -38,11 +38,11 @@ public class Launcher : MonoBehaviour
             };
 
             serverProcess = Process.Start(psi);
-            Debug.Log("Server is started!");
+            Debug.Log("[LAUNCHER]: Server started!");
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Error opening server: " + e.Message);
+            Debug.LogError("[LAUNCHER]: Error opening server: " + e.Message);
         }
     }
 
@@ -61,11 +61,11 @@ public class Launcher : MonoBehaviour
             };
 
             Process.Start(killPsi);
-            Debug.Log("Successfully closed Server CMD!");
+            Debug.Log("[LAUNCHER]: Successfully closed Server CMD!");
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Error closing server: " + e.Message);
+            Debug.LogError("[LAUNCHER]: Error closing server: " + e.Message);
         }
     }
 }

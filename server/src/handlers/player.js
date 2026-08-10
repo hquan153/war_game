@@ -111,8 +111,7 @@ const player = {
   while (true) {
     await player.sleep(checkInterval);
     try {
-      const unityClient = app.locals?.unityClient;
-      if (unityClient?.readyState !== WebSocket.OPEN) continue;
+      if (app.locals.unityClient?.readyState !== WebSocket.OPEN) continue;
       player.playerCountController();
       if (playerQueue.length === 0) continue;
       await player.dequeue();

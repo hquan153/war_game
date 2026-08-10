@@ -13,21 +13,23 @@ const tiktokConnection = new TikTokLiveConnection(constants.username, {
 tiktokConnection
   .connect()
   .then((state) => {
-    console.info(`Connected to roomId ${state.roomId}`);
+    console.info(`[TIKTOK]: Connected to ${constants.username}, roomId ${state.roomId}`);
   })
-  .catch((err) => {
-    console.error("Failed to connect", err);
+  .catch((error) => {
+    console.error("[TIKTOK]: Failed to connect!", error);
   });
 
 readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isRawMode) process.stdin.setRawMode(true);
 
 process.stdin.on("keypress", (str, key) => {
-  const unityClient = app.locals?.unityClient;
+  const unityClient = app.locals.unityClient;
   if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
 
   const indexOf = constants.playerTierKey.indexOf(key.name);
-  indexOf >= 0 && player.init([{ ...constants.playerConfig[indexOf] }]);
+  if (indexOf < 0) return;
+  player.init([{ ...constants.playerConfig[indexOf] }]);
+  console.log(`[TIKTOK]: Sent ${constants.playerConfig[indexOf].tier} to unity!`);
 });
 
 module.exports = tiktokConnection;

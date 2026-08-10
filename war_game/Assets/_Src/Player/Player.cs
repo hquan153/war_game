@@ -4,7 +4,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     private const int degree = 360;
-    private const int minSpeed = 8;
+    private const int minSpeedStart = 8;
 
     private PlayerController playerControllerScript;
     private DamageController damageControllerScript;
@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private bool isDisappearing = false;
 
     private Vector2 currentVelocity;
+    private float magnitude;
 
     private void Awake()
     {
@@ -77,19 +78,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*private void FixedUpdate()
+    private void FixedUpdate()
     {
         if (isGrowing || isDisappearing) return;
         if (PlayerF.health <= 0) return;
 
         currentVelocity = rigidbody2d.linearVelocity;
-        if (Mathf.Abs(currentVelocity.x) <= .8f || Mathf.Abs(currentVelocity.y) <= .8f)
-        {
-            Vector2 direction = Vector3.zero - transform.position;
-            int speed = Random.Range(minSpeed, minSpeed + 4);
-            rigidbody2d.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
-        }
-    }*/
+        magnitude = currentVelocity.magnitude;
+        if (Mathf.Abs(magnitude) <= 3f) rigidbody2d.AddForce(.8f * minSpeedStart * currentVelocity.normalized, ForceMode2D.Impulse);
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -116,7 +113,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         Vector2 direction = new(Random.Range(-degree, degree), Random.Range(-degree, degree));
-        int speed = Random.Range(minSpeed, minSpeed + 4);
+        int speed = Random.Range(minSpeedStart, minSpeedStart + 4);
         rigidbody2d.AddForce(direction.normalized * speed, ForceMode2D.Impulse);
         isGrowing = true;
     }

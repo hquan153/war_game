@@ -12,18 +12,19 @@ const interact = async (viewerData) => {
   if (tiktokConnection._connectState !== "CONNECTED") return;
 
   // console.log(viewerData.user.displayId, viewerData.user.avatarThumb.urlList[0]);
-
   const unityClient = app.locals?.unityClient;
   if (!unityClient || unityClient.readyState !== WebSocket.OPEN) return;
 
-  const matchedConfig =
-    constants.playerConfig.find((tier) => tier.diamondCount === (viewerData.gift?.diamondCount || 0)) ||
-    constants.playerConfig[0];
+  viewerData.diamondCount = viewerData.gift?.diamondCount || 0;
+
+  const matchedConfig = constants.playerConfig.find(
+    (tier) => viewerData.diamondCount >= tier.diamondCount && viewerData.diamondCount <= tier.diamondCountMax,
+  );
 
   const playerData = {
     ...matchedConfig,
     displayId: viewerData.user.displayId,
-    avatarUrl: viewerData.user.avatarThumb.urlList,
+    avatarUrl: viewerData.user.avatarThumb.urlList[0],
   };
 
   for (let i = 0; i < (viewerData.repeatCount ?? 1); i++) player.enqueue({ ...playerData });

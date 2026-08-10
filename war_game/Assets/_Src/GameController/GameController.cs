@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
             disconnectedUI.SetActive(false);
             Cursor.visible = false;
 
-            Debug.Log("Connection open!");
+            Debug.Log("[WS]: Connection open!");
         };
 
         websocket.OnClose += (code) =>
@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
             disconnectedUI.SetActive(true);
             Cursor.visible = true;
 
-            Debug.Log("Connection closed!");
+            Debug.Log("[WS]: Connection closed!");
         };
 
         websocket.OnMessage += (bytes) =>
@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
             else Debug.LogError("?");
         };
 
-        websocket.OnError += (e) => Debug.Log("Error! " + e);
+        websocket.OnError += (e) => Debug.Log("[WS]: Error! " + e);
 
         await websocket.Connect();
     }
@@ -96,6 +96,6 @@ public class GameController : MonoBehaviour
     public async void SendToServer(string message)
     {
         if (websocket.State == WebSocketState.Open) await websocket.SendText(message);
-        else Debug.LogError("Server is not ready to connect in SendToServer!");
+        else Debug.LogError("[WS]: Server is not ready to connect in SendToServer!");
     }
 }
