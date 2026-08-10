@@ -2,7 +2,7 @@ const WebSocket = require("ws");
 
 const app = require("../index");
 
-const player = require("../handlers/player1");
+const player = require("../handlers/player");
 const constants = require("../untils/constants");
 
 const wss = new WebSocket.Server({ port: constants.wsPort }, () => {
