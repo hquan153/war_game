@@ -9,7 +9,7 @@ TagManager:
   - Damage
   - DamageController
   - Audio
-  - SetttingUI
+  - SettingUI
   layers:
   - Default
   - TransparentFX

@@ -17,25 +17,20 @@ const player = {
     const initialPlayerData = [
       {
         ...constants.playerConfig[0],
-        displayId: "initialPlayer",
-        borderColor: "yellow",
         count: 1,
       },
       {
         ...constants.playerConfig[1],
-        displayId: "initialPlayer",
-        borderColor: "red",
         count: 5,
       },
       {
         ...constants.playerConfig[2],
-        displayId: "initialPlayer",
-        borderColor: "purple",
         count: 1,
       },
     ];
 
     for (const playerData of initialPlayerData) {
+      playerData.displayId = "initialPlayer";
       playerData.isInit = true;
       playerData.avatarBuffer = constants.test.avatarBuffer;
 
@@ -53,13 +48,12 @@ const player = {
     if (!playerData.isInit) {
       const isSendToUnity = this.attended({ ...playerData });
       console.log(playerQueue.length, playerData.displayId, playerData.diamondCount, playerData.tier, isSendToUnity);
-
       if (!isSendToUnity) return;
-
-      playerData.avatarBuffer = await avatarGetter(playerData.avatarUrl);
     }
 
     playerData.borderColor = borderColors[Math.floor(Math.random() * borderColors.length)];
+    playerData.avatarBuffer = playerData.avatarBuffer ?? (await avatarGetter(playerData.avatarUrl));
+
     try {
       await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
     } catch (error) {
