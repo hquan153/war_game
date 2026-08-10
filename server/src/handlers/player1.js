@@ -12,16 +12,18 @@ const displayIds = [];
 const checkInterval = 30;
 const spawnInterval = 200;
 
+let playerCount = 0;
+
 const player = {
   init() {
     const initialPlayerData = [
       {
         ...constants.playerConfig[0],
-        count: 1,
+        count: 8,
       },
       {
         ...constants.playerConfig[1],
-        count: 5,
+        count: 0,
       },
       {
         ...constants.playerConfig[2],
@@ -56,6 +58,7 @@ const player = {
 
     try {
       await app.locals.unityClient.send(convertToBuffer(playerData), { binary: true });
+      playerCount++;
     } catch (error) {
       console.error(`Error when send player to unity: ${error}`);
     }
@@ -77,6 +80,8 @@ const player = {
     }
 
     displayIds.splice(displayIds.indexOf(displayId));
+
+    playerCount--;
   },
 
   async sleep(ms) {

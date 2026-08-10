@@ -23,7 +23,7 @@ const constants = {
       diamondCount: 0,
       attended: null,
       avatarUrl: "",
-      avatarBuffer: "",
+      avatarBuffer: null,
     },
     {
       displayId: "",
@@ -37,7 +37,7 @@ const constants = {
       diamondCount: 1,
       attended: null,
       avatarUrl: "",
-      avatarBuffer: "",
+      avatarBuffer: null,
     },
     {
       displayId: "",
@@ -51,7 +51,7 @@ const constants = {
       diamondCount: 5,
       attended: null,
       avatarUrl: "",
-      avatarBuffer: "",
+      avatarBuffer: null,
     },
     {
       displayId: "",
@@ -65,7 +65,7 @@ const constants = {
       diamondCount: 10,
       attended: null,
       avatarUrl: "",
-      avatarBuffer: "",
+      avatarBuffer: null,
     },
     {
       displayId: "",
@@ -79,7 +79,7 @@ const constants = {
       diamondCount: 100,
       attended: null,
       avatarUrl: "",
-      avatarBuffer: "",
+      avatarBuffer: null,
     },
   ],
 };

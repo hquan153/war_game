@@ -2,7 +2,7 @@ const { WebcastEvent } = require("tiktok-live-connector");
 
 const app = require("../index");
 
-const player = require("./player");
+const player = require("./player1");
 
 const tiktokConnection = require("../connections/tiktok");
 

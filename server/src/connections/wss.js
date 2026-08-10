@@ -2,8 +2,7 @@ const WebSocket = require("ws");
 
 const app = require("../index");
 
-const player = require("../handlers/player");
-
+const player = require("../handlers/player1");
 const constants = require("../untils/constants");
 
 const wss = new WebSocket.Server({ port: constants.wsPort }, () => {
@@ -15,9 +14,9 @@ wss.on("connection", (ws) => {
   app.locals.unityClient = ws;
   player.init();
 
-  ws.on("message", (displayId) => {
-    // console.log(`[WS] received displayId: ${displayId}`);
-    player.remove(displayId);
+  ws.on("message", (message) => {
+    // console.log(`[WS] received message: ${message}`);
+    player.remove(message);
   });
 
   ws.on("close", () => {

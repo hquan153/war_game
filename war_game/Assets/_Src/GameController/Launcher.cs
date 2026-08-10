@@ -9,7 +9,7 @@ public class Launcher : MonoBehaviour
 
     private void Awake()
     {
-        if (this.enabled) LaunchServer();
+        //if (this.enabled) LaunchServer();
     }
 
     private void OnApplicationQuit()

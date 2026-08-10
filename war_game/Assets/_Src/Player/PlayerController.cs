@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
 
     private const string playerPrefabPath = "Prefabs/Player";
     public readonly string splitChar = " | ";
-
     private readonly Queue<GameObject> playersGO = new();
     private readonly Queue<PlayerData> m_players = new();
+
     public PlayerData Players
     {
         get => m_players.Dequeue();
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDeadHandler(GameObject playerGO)
     {
-        gameControllerScript.RemovePlayer(playerGO.GetComponent<Player>().PlayerF.displayId);
+        gameControllerScript.SendToServer(playerGO.GetComponent<Player>().PlayerF.displayId);
 
         playersGO.Enqueue(playerGO);
         playerGO.name = "Player";

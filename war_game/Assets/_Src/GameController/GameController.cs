@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
         websocket = new WebSocket(serverUrl);
 
         playerControllerScript = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerController>();
@@ -90,9 +93,9 @@ public class GameController : MonoBehaviour
         if (websocket.State != WebSocketState.Open) await websocket.Connect();
     }
 
-    public async void RemovePlayer(string displayId)
+    public async void SendToServer(string message)
     {
-        if (websocket.State == WebSocketState.Open) await websocket.SendText(displayId);
-        else Debug.LogError("Server is not ready to connect!");
+        if (websocket.State == WebSocketState.Open) await websocket.SendText(message);
+        else Debug.LogError("Server is not ready to connect in SendToServer!");
     }
 }

@@ -799,7 +799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Launch or Restart Server
+  m_text: 'Launch / Restart Server
 
 '
   m_isRightToLeft: 0
@@ -1992,7 +1992,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712648096}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbe8aa02b06466049891a6a375491dcc, type: 3}
   m_Name: 
