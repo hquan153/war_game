@@ -10,7 +10,7 @@ const wss = new WebSocket.Server({ port: constants.wsPort }, () => {
 });
 
 wss.on("connection", (ws) => {
-  console.log(`[WS]: Unity connected via WebSocket.`);
+  console.log(`[WS]: Unity connected via WebSocket!`);
   app.locals.unityClient = ws;
   player.init();
 
@@ -20,7 +20,7 @@ wss.on("connection", (ws) => {
   });
 
   ws.on("close", () => {
-    console.log(`[WS]: Unity disconnected from WebSocket.`);
+    console.log(`[WS]: Unity disconnected from WebSocket!`);
     player.remove(null, true);
     app.locals.unityClient = null;
   });
