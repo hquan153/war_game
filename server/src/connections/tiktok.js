@@ -29,7 +29,7 @@ process.stdin.on("keypress", (str, key) => {
   const indexOf = constants.playerTierKey.indexOf(key.name);
   if (indexOf < 0) return;
   player.init([{ ...constants.playerConfig[indexOf] }]);
-  console.log(`[TIKTOK]: Sent ${constants.playerConfig[indexOf].tier} to unity!`);
+  console.log(`[KEYPRESS]: Sent ${constants.playerConfig[indexOf].tier} to unity!`);
 });
 
 module.exports = tiktokConnection;
