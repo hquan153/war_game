@@ -16,7 +16,7 @@ tiktokConnection
     console.info(`[TIKTOK]: Connected to ${constants.username}, roomId ${state.roomId}`);
   })
   .catch((error) => {
-    console.error(`[TIKTOK]: Failed to connect ${constants.username}!`, error);
+    console.error(`[TIKTOK]: Failed to connect ${constants.username}!: ${error}`);
   });
 
 readline.emitKeypressEvents(process.stdin);
