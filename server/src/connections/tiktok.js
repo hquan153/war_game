@@ -13,7 +13,7 @@ const tiktokConnection = new TikTokLiveConnection(constants.username, {
 tiktokConnection
   .connect()
   .then((state) => {
-    console.info(`[TIKTOK]: Connected to ${constants.username}, roomId ${state.roomId}`);
+    console.info(`[TIKTOK]: Connected to ${constants.username}: roomId ${state.roomId}`);
   })
   .catch((error) => {
     console.error(`[TIKTOK]: Failed to connect ${constants.username}!: ${error}`);
