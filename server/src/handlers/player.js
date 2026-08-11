@@ -12,18 +12,18 @@ const displayIds = [];
 const checkInterval = 25;
 const spawnInterval = 225;
 
-const minPlayer = 4;
+const minPlayer = 5;
 let playerCount = 0;
 
 const player = {
   initialPlayersData: [
     {
       ...constants.playerConfig[0],
-      count: 2,
+      count: 5,
     },
     {
       ...constants.playerConfig[1],
-      count: 2,
+      count: 1,
     },
     {
       ...constants.playerConfig[2],
@@ -96,10 +96,10 @@ const player = {
   },
 
   playerCountController() {
-    // console.log(playerCount);
-    if (playerCount >= minPlayer) return;
-    const playerData = constants.playerConfig[Math.floor(Math.random() * 2)];
-    this.init([{ ...playerData }]);
+    const playersData = new Array(Math.floor(Math.random() * 3)).fill(null);
+    for (const index in playersData) playersData[index] = { ...constants.playerConfig[Math.floor(Math.random() * 2)] };
+
+    this.init(playersData);
   },
 
   async sleep(ms) {
@@ -112,7 +112,7 @@ const player = {
     await player.sleep(checkInterval);
     try {
       if (app.locals.unityClient?.readyState !== WebSocket.OPEN) continue;
-      player.playerCountController();
+      if (playerCount < minPlayer) player.playerCountController();
       if (playerQueue.length === 0) continue;
       await player.dequeue();
       await player.sleep(spawnInterval);

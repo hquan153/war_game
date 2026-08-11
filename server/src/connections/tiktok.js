@@ -7,7 +7,7 @@ const constants = require("../untils/constants");
 
 const tiktokConnection = new TikTokLiveConnection(constants.username, {
   processInitialData: false,
-  // sessionId: constants.sessionId,
+  sessionId: constants.sessionId,
 });
 
 tiktokConnection
@@ -16,7 +16,7 @@ tiktokConnection
     console.info(`[TIKTOK]: Connected to ${constants.username}, roomId ${state.roomId}`);
   })
   .catch((error) => {
-    console.error("[TIKTOK]: Failed to connect!", error);
+    console.error(`[TIKTOK]: Failed to connect ${constants.username}!`, error);
   });
 
 readline.emitKeypressEvents(process.stdin);

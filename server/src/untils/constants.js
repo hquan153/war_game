@@ -4,7 +4,7 @@ const constants = {
   port: 3000,
   wsPort: process.env.PORT || 8080,
   username: "@" + process.env.TIKTOK_USERNAME,
-  // sessionId: process.env.SESSION_ID || "",
+  sessionId: process.env.SESSION_ID || "",
 
   test: {
     avatarBuffer: fs.readFileSync("src/assets/avatarBufferTest.png"),
